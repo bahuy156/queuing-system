@@ -1,0 +1,60 @@
+.wrapper-header-default {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 64px 22px 24px;
+}
+
+.title-header-default {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    color: #FF9138;
+}
+
+.header-default {
+    display: flex;
+    align-items: center;
+}
+
+.icon-notification-default {
+    padding: 6px 7px 2px 8px;
+    border-radius: 50%;
+    background-color: #FFF2E7;
+    cursor: pointer;
+}
+
+.icon-notification2 {
+    width: 20px;
+    height: 20px;
+    color: #FFAC6A;
+}
+
+.info-notification-default {
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+
+    img {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.info-notification-default-child {
+    margin-left: 8px;
+
+    span {
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px;
+    }
+
+    p {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 24px;
+    }
+}

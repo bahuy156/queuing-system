@@ -1,0 +1,79 @@
+.wrapper-menu {
+    position: relative;
+    width: 219px;
+    height: 100vh;
+    padding: 32px 0 30px 0;
+}
+
+.logo-menu {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.nav-menu-child {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px 12px 16px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #7E7D88;
+    cursor: pointer;
+
+    span {
+        margin-left: 8px;
+        margin-right: 12px;
+        font-size: 16px;
+        font-style: normal;
+        line-height: 24px;
+    }
+
+    &.active {
+        .icon-nav {
+            color: #fff;
+        }
+
+        color: #fff;
+        font-weight: 700;
+        background-color: #FF7506;
+    }
+}
+
+.icon-nav {
+    font-size: 22px;
+    color: #A9A9B0;
+}
+
+.logout-button {
+    display: flex;
+    justify-content: center;
+}
+
+.logout-button-child {
+    position: absolute;
+    bottom: 30px;
+    width: 196px;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    background-color: #FFF2E7;
+    cursor: pointer;
+
+    span {
+        font-family: Nunito;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+        color: #FF7506;
+    }
+}
+
+.logout-icon {
+    margin-right: 12px;
+    font-size: 22px;
+    color: #FF7506;
+}

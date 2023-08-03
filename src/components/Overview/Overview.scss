@@ -1,0 +1,64 @@
+.header-overview {
+    display: flex;
+    align-items: center;
+    padding-left: 81px;
+}
+
+.icon-notification-overview {
+    padding: 6px 7px 2px 8px;
+    border-radius: 50%;
+    background-color: #FFF2E7;
+    cursor: pointer;
+}
+
+.icon-notification {
+    width: 20px;
+    height: 20px;
+    color: #FFAC6A;
+}
+
+.info-notification-overview {
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+
+    img {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.info-notification-overview-child {
+    margin-left: 8px;
+
+    span {
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px;
+    }
+
+    p {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 24px;
+    }
+}
+
+.main-overview {
+    margin-top: 32px;
+}
+
+.title-main-overview {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px;
+    color: #FF7506;
+}
+
+.calendar-main-overview {
+    margin-top: 16px;
+    box-shadow: 2px 2px 15px 0px rgba(70, 64, 67, 0.10);
+}
