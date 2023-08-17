@@ -1,6 +1,8 @@
 import "./Header.scss"
 import { BiSolidBell } from "react-icons/bi"
 import bahuyLogo from "../../images/bahuy.png"
+import { Link } from "react-router-dom"
+import { publicRoutes } from "../../routes"
 
 interface PropsParent {
     headName: any
@@ -15,13 +17,13 @@ function Header(props: PropsParent) {
                 <div className="icon-notification-default">
                     <BiSolidBell className="icon-notification2" />
                 </div>
-                <div className="info-notification-default">
+                <Link to={publicRoutes[7].path} className="info-notification-default">
                     <img src={bahuyLogo} alt="" />
                     <div className="info-notification-default-child">
                         <span>Xin chào</span>
                         <p>Sa Mai Bá Huy</p>
                     </div>
-                </div>
+                </Link>
             </div>
         </div>
     );

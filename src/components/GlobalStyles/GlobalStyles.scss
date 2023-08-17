@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;900&display=swap");
 
 * {
     padding: 0;
@@ -9,4 +9,175 @@
 body {
     font-family: "Nunito", sans-serif;
     text-rendering: optimizeSpeed;
+}
+
+// input
+.ant-input:focus,
+:where(.css-dev-only-do-not-override-txh9fw).ant-input-focused {
+    border-color: #FF9138 !important;
+    box-shadow: none !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-input:hover {
+    border-color: #FF9138 !important;
+}
+
+// select
+:where(.css-dev-only-do-not-override-txh9fw).ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer):hover .ant-select-selector {
+    border-color: #FF9138 !important;
+}
+
+.ant-select-focused:where(.css-dev-only-do-not-override-txh9fw).ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
+    border-color: #FF9138 !important;
+    box-shadow: none !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-select-dropdown {
+    padding: 4px 0px !important;
+    font-family: "Nunito", sans-serif !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    background-color: #FFF2E7 !important;
+}
+
+// table
+.ant-table-wrapper {
+
+    p,
+    a {
+        font-family: "Nunito", sans-serif !important;
+    }
+}
+
+.ant-table {
+    font-family: "Nunito", sans-serif !important;
+    border-radius: 12px !important;
+}
+
+.ant-table-thead {
+    tr {
+
+        th,
+        td {
+            font-size: 16px !important;
+            font-style: normal !important;
+            font-weight: 700 !important;
+            line-height: 24px !important;
+            color: #FFF2E7 !important;
+            background-color: #FF9138 !important;
+        }
+
+        th::before {
+            width: 0px !important;
+            height: 56px !important;
+        }
+
+        td::before {
+            width: 0px !important;
+            height: 56px !important;
+        }
+    }
+}
+
+.ant-table-tbody {
+    tr {
+
+        td {
+            padding: 5px 16px !important;
+            font-size: 14px !important;
+            font-style: normal !important;
+            font-weight: 400 !important;
+            line-height: 21px !important;
+            border-right: 1px solid #FFE3CD !important;
+
+            a {
+                text-decoration: underline !important;
+            }
+        }
+    }
+
+    tr:nth-child(even) {
+        background-color: #FFF2E7 !important;
+    }
+}
+
+.ant-table-wrapper ul .ant-pagination-item-active {
+    background-color: #FF9138 !important;
+    border-color: #FF9138 !important;
+
+    a {
+        font-family: "Nunito", sans-serif !important;
+        color: #fff !important;
+    }
+}
+
+// datepicker
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker:hover,
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-focused {
+    border-color: #FF9138 !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-focused {
+    border-color: #FF9138 !important;
+    box-shadow: none !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+    border: 1px solid #FF9138 !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-dropdown .ant-picker-today-btn {
+    color: #FF9138 !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-dropdown .ant-picker-header-view button {
+    color: #FF9138 !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+    color: #fff;
+    background: #FF9138 !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker .ant-picker-input>input {
+    // width: 100px !important;
+    font-family: "Nunito", sans-serif !important;
+}
+
+.ant-picker-suffix {
+    span {
+        color: #FF9138 !important;
+    }
+}
+
+// calendar
+:where(.css-dev-only-do-not-override-txh9fw).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    z-index: 1;
+    color: #FF9138 !important;
+    border-color: #FF9138 !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child {
+    border-color: #FF9138 !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+    border: 1px solid #FF9138 !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+:where(.css-dev-only-do-not-override-txh9fw).ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+    background: #FF9138 !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+    background-color: #FF9138 !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-radio-button-wrapper:hover {
+    color: #FF9138 !important;
 }

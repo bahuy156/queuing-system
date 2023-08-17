@@ -1,0 +1,129 @@
+.wrapper-detail-provide-num {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-detail-provide-num {
+    flex: 1;
+    padding: 0px 24px 22px 24px;
+}
+
+.title-detail-provide-num {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px;
+    color: #FF7506;
+}
+
+.content-detail-provide-num {
+    height: 570px;
+    padding: 16px 24px 24px 24px;
+    margin-top: 16px;
+    border-radius: 16px;
+    background-color: #fff;
+}
+
+.title-content-detail-provide-num {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    color: #FF7506;
+}
+
+.wrapper-content-main-detail-provide-num {
+    display: flex;
+    align-items: baseline;
+    margin-top: 20px;
+}
+
+.content-main-detail-provide-num {
+    display: flex;
+    align-items: center;
+    margin-right: 240px;
+}
+
+.content-main-detail-provide-num-child {
+    p {
+        margin-bottom: 16px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+    }
+}
+
+.content-main-detail-provide-num-child2 {
+    margin-left: 30px;
+
+    p {
+        margin-bottom: 16px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        color: #535261;
+    }
+}
+
+.status-num-child-2 {
+    display: flex;
+    align-items: center;
+}
+
+.icon-status-num-child-2 {
+    margin-bottom: 16px;
+    color: #4277FF;
+}
+
+.bot-content-main-detail-provide-num {
+
+    p {
+        margin-bottom: 7px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+    }
+
+    span {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        color: #535261;
+    }
+}
+
+.btn-back-provide-num {
+    margin-top: 55px;
+    padding: 15px 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #FFF2E7;
+    box-shadow: 0px 0px 6px 0px #E7E9F2;
+    cursor: pointer;
+
+    p {
+        text-align: center;
+        font-family: Nunito;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        color: #FF7506;
+    }
+}
+
+.icon-back-provide-num {
+    display: inline-block;
+    text-align: center;
+    width: 23px;
+    height: 23px;
+    margin-bottom: 3px;
+    padding: 5px 5px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #FF7506;
+}

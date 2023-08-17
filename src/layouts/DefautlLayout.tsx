@@ -1,5 +1,4 @@
 import "./Layout.scss"
-// import Header from "../components/Header/Header";
 import NavBar from "../components/NavBar/NavBar";
 
 interface PropsChild {

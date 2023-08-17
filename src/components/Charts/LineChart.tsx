@@ -108,7 +108,7 @@ function LineChartComponent() {
         },
     };
 
-    return <Line width={400} data={chartData} height={146} options={options} />;
+    return <Line width={400} data={chartData} height={157} options={options} />;
 }
 
 export default LineChartComponent;

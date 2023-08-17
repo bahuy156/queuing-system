@@ -1,57 +1,43 @@
-import "./Device.scss"
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import Header from "../../components/Header/Header";
-import { Select } from 'antd';
-import { Input } from 'antd';
+import { useState } from "react";
+import AddDevice from "./AddDevice/AddDevice";
+import ListDevice from "./ListDevice/ListDevice";
+import DetailDevice from "./DetailDevice/DetailDevice";
+import UpdateDevice from "./UpdateDevice/UpdateDevice";
+import { DataTable } from "../../types";
 
 function Device() {
-    const handleChange = (value: string) => {
-        console.log(`selected ${value}`);
-    };
+    const [pageDevice, setPageDevice] = useState<string>("0");
+    const [selectedDevice, setSelectedDevice] = useState<DataTable | null>(null);
+
+    const handleOpenPageDetail = (deviceDetail: DataTable) => {
+        setSelectedDevice(deviceDetail)
+        setPageDevice("2")
+    }
+
+    const handleOpenPageUpdate = (deviceUpdate: DataTable) => {
+        setSelectedDevice(deviceUpdate)
+        setPageDevice("3")
+    }
 
     return (
         <div className="wrapper-device">
-            <Header headName='Thiết bị' />
-            <div className="main-device">
-                <h3 className="title-main-device">Danh sách thiết bị</h3>
+            <Header headName="Thiết bị" />
 
-                <div className="top-main-device">
-                    <div className="top-status-main-device">
-                        <div className="status-main-child">
-                            <p>Trạng thái hoạt động</p>
-                            <Select
-                                className="status-main-child-selected"
-                                defaultValue="Tất cả"
-                                style={{ width: 270 }}
-                                onChange={handleChange}
-                                options={[
-                                    { value: 'Tất cả', label: 'Tất cả' },
-                                    { value: 'Hoạt động', label: 'Hoạt động' },
-                                    { value: 'Ngưng hoạt động', label: 'Ngưng hoạt động' },
-                                ]}
-                            />
-                        </div>
-                        <div className="status-main-child">
-                            <p>Trạng thái kết nối</p>
-                            <Select
-                                className="status-main-child-selected"
-                                defaultValue="Tất cả"
-                                style={{ width: 270 }}
-                                onChange={handleChange}
-                                options={[
-                                    { value: 'Tất cả', label: 'Tất cả' },
-                                    { value: 'Kết nối', label: 'Kết nối' },
-                                    { value: 'Ngưng Kết nối', label: 'Ngưng Kết nối' },
-                                ]}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="top-search-main-device">
-                        <p>Từ khóa</p>
-                        <Input placeholder="Nhập từ khóa" />
-                    </div>
-                </div>
-            </div>
+            {pageDevice === "0" ? (
+                <ListDevice
+                    handleOpenPageAdd={() => setPageDevice("1")}
+                    handleOpenPageDetail={handleOpenPageDetail}
+                    handleOpenPageUpdate={handleOpenPageUpdate}
+                />
+            ) : pageDevice === "1" ? (
+                <AddDevice handleClosePageAdd={() => setPageDevice("0")} />
+            ) : pageDevice === "2" ? (
+                <DetailDevice handleOpenPageUpdate={handleOpenPageUpdate} selectedDeviceDetail={selectedDevice} />
+            ) : (
+                <UpdateDevice handleClosePageUpdate={() => setPageDevice("0")} selectedDeviceUpdate={selectedDevice} />
+            )}
         </div>
     );
 }
