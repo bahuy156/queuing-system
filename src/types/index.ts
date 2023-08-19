@@ -47,3 +47,41 @@ export interface DataTableProvideNum {
     status: string,
     supply: string,
 }
+
+// type table report
+export interface DataTableReport {
+    key: string,
+    stt: string,
+    nameSev: string,
+    timeProvide: string,
+    status: string,
+    supply: string,
+}
+
+// ty table list role 
+export interface DataTableListRole {
+    key: string,
+    nameRole: string,
+    userNum: string,
+    desc: string,
+}
+
+// type table list account 
+export interface DataTableListAccount {
+    key: string,
+    nameLogin: string,
+    name: string,
+    phone: string,
+    email: string,
+    role: string,
+    status: string,
+}
+
+// type table user log
+export interface DataTableUserLog {
+    key: string,
+    nameLogin: string,
+    time: string,
+    ip: string,
+    operations: string,
+}

@@ -112,6 +112,10 @@ body {
     }
 }
 
+:where(.css-dev-only-do-not-override-txh9fw).ant-table-wrapper .ant-table-filter-trigger {
+    color: #fff !important;
+}
+
 // datepicker
 :where(.css-dev-only-do-not-override-txh9fw).ant-picker:hover,
 :where(.css-dev-only-do-not-override-txh9fw).ant-picker-focused {
@@ -180,4 +184,20 @@ body {
 
 :where(.css-dev-only-do-not-override-txh9fw).ant-radio-button-wrapper:hover {
     color: #FF9138 !important;
+}
+
+// modal
+:where(.css-dev-only-do-not-override-txh9fw).ant-modal .ant-modal-content {
+    width: 469px !important;
+    padding: 0 !important;
+    border-radius: 24px !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-modal .ant-modal-close-x {
+    color: #FF9138 !important;
+}
+
+// dropdown table
+:where(.css-dev-only-do-not-override-txh9fw).ant-dropdown .ant-table-filter-dropdown .ant-table-filter-dropdown-btns {
+    display: none !important;
 }

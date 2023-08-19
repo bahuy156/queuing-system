@@ -1,14 +1,14 @@
-.main-report {
+.main-list-role {
     display: flex;
     padding: 0px 0px 20px 24px;
 }
 
-.main-report-child {
+.main-list-role-child {
     flex: 1;
     margin-right: 17px;
 }
 
-.title-main-report-child {
+.title-main-list-role-child {
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
@@ -16,44 +16,12 @@
     color: #FF7506;
 }
 
-.top-main-report-child {
+.top-main-list-role-child {
     display: flex;
     justify-content: space-between;
 }
 
-.top-status-main-report {
-    display: flex;
-}
-
-.status-main-report-child {
-    margin-right: 24px;
-
-    p {
-        margin-bottom: 5px;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 24px;
-    }
-}
-
-.status-date-main-child {
-    display: flex;
-    align-items: center;
-}
-
-.status-main-child-selected {
-    span {
-        font-family: Nunito;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 24px;
-        color: #535261;
-    }
-}
-
-.top-search-main-report {
+.top-search-main-list-role {
     position: relative;
 
     p {
@@ -86,11 +54,11 @@
     cursor: pointer;
 }
 
-.table-content-main-report {
+.table-content-main-list-role {
     margin-top: 16px;
 }
 
-.table-report {
+.table-list-role {
     .ant-table-tbody {
         tr {
             td {
@@ -100,12 +68,12 @@
     }
 }
 
-.add-report {
+.add-list-role {
     width: 80px;
     margin-top: 75px;
 }
 
-.button-add-report {
+.button-add-list-role {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -128,22 +96,20 @@
     }
 }
 
-.status-active {
+.status-active,
+.status-connect {
     display: flex;
     align-items: center;
 }
 
-.icon-waiting-report {
+.icon-active,
+.icon-connect-active {
     margin-right: 4px;
-    color: #4277FF;
+    color: #34CD26;
 }
 
-.icon-used-report {
+.icon-shutdown,
+.icon-unconnect {
     margin-right: 4px;
-    color: #7E7D88;
-}
-
-.icon-skip-report {
-    margin-right: 4px;
-    color: #E73F3F;
+    color: #EC3740;
 }

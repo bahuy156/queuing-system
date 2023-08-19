@@ -20,7 +20,7 @@ function ProvideNum() {
                     handleOpenPageDetail={handleOpenPageDetail}
                 />
             ) : pageProvideNum === "1" ? (
-                <NewNumber />
+                <NewNumber handleClosePageNewNumber={() => setPageProvideNum("0")} />
             ) : (
                 <DetailProvideNum handleClosePageDetail={() => setPageProvideNum("0")} />
             )}

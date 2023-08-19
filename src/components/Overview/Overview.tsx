@@ -30,7 +30,7 @@ function Overview() {
                 <div className="icon-notification-overview">
                     <BiSolidBell className="icon-notification" />
                 </div>
-                <Link to={publicRoutes[7].path} className="info-notification-overview">
+                <Link to={publicRoutes[6].path} className="info-notification-overview">
                     <img src={bahuyLogo} alt="" />
                     <div className="info-notification-overview-child">
                         <span>Xin chào</span>

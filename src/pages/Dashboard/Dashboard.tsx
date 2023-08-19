@@ -2,15 +2,18 @@ import "./Dashboard.scss"
 import { BsCalendar } from "react-icons/bs"
 import { GoArrowUp } from "react-icons/go"
 import { BsCalendarCheck } from "react-icons/bs"
-
+import { AiFillCaretDown } from "react-icons/ai";
 import { Select } from 'antd';
 import Overview from "../../components/Overview/Overview";
 import LineChartComponent from "../../components/Charts/LineChart";
 import HeaderDashboard from "../../components/HeaderDashboard";
+import { useState } from "react"
 
 function Dashboard() {
+    const [title, setTitle] = useState<string>("ngày")
+
     const handleChange = (value: string) => {
-        console.log(`selected ${value}`);
+        setTitle(value)
     };
 
     return (
@@ -96,18 +99,21 @@ function Dashboard() {
 
                     <div className="statistical-content-left-dash">
                         <div className="statistical-header-left">
-                            <h4 className="title-statistical">Bảng thống kê theo ngày</h4>
+                            <h4 className="title-statistical">Bảng thống kê theo {title}</h4>
                             <div className="statistical-header-calendar">
                                 <p>Xem theo</p>
                                 <Select
                                     className="statistical-header-selected"
-                                    defaultValue="Ngày"
+                                    defaultValue="ngày"
                                     style={{ width: 100 }}
                                     onChange={handleChange}
+                                    suffixIcon={
+                                        <AiFillCaretDown size={20} style={{ color: "#FF7506" }} />
+                                    }
                                     options={[
-                                        { value: 'Ngày', label: 'Ngày' },
-                                        { value: 'Tuần', label: 'Tuần' },
-                                        { value: 'Tháng', label: 'Tháng' },
+                                        { value: 'ngày', label: 'ngày' },
+                                        { value: 'tuần', label: 'tuần' },
+                                        { value: 'tháng', label: 'tháng' },
                                     ]}
                                 />
                             </div>

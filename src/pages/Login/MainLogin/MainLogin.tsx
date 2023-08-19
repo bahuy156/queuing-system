@@ -21,7 +21,7 @@ function MainLogin(props: PropsChild) {
     const [showPass, setShowPass] = useState<string>("password");
     const [valueNameLogin, setValueNameLogin] = useState<string>("");
     const [valuePassword, setValuePassWord] = useState<string>("");
-    const [checkLogin, setChecklogin] = useState<boolean>(false)
+    const [checkLogin, setChecklogin] = useState<boolean>(false);
 
     const handleShowPass = () => {
         setShowPass("text");
@@ -46,10 +46,10 @@ function MainLogin(props: PropsChild) {
 
     const handleCheckLogin = () => {
         if (valueNameLogin === "" && valuePassword === "") {
-            setChecklogin(true)
+            setChecklogin(true);
             return;
         } else {
-            setChecklogin(false)
+            setChecklogin(false);
         }
         dispatch(verifyAccount(valueNameLogin, valuePassword));
     };
@@ -62,7 +62,8 @@ function MainLogin(props: PropsChild) {
                     <div className="main-login-left-park">
                         <div
                             className={
-                                checkLogin || accountLoginStatus.error && !accountLoginStatus.loading
+                                checkLogin ||
+                                    (accountLoginStatus.error && !accountLoginStatus.loading)
                                     ? "main-login-left-park-child-error"
                                     : "main-login-left-park-child"
                             }
@@ -75,14 +76,15 @@ function MainLogin(props: PropsChild) {
                                 value={valueNameLogin}
                                 type="text"
                                 onChange={(e) => {
-                                    setChecklogin(false)
-                                    setValueNameLogin(e.target.value)
+                                    setChecklogin(false);
+                                    setValueNameLogin(e.target.value);
                                 }}
                             />
                         </div>
                         <div
                             className={
-                                checkLogin || accountLoginStatus.error && !accountLoginStatus.loading
+                                checkLogin ||
+                                    (accountLoginStatus.error && !accountLoginStatus.loading)
                                     ? "main-login-left-park-child-error"
                                     : "main-login-left-park-child"
                             }
@@ -98,26 +100,40 @@ function MainLogin(props: PropsChild) {
                                     onChange={(e) => setValuePassWord(e.target.value)}
                                 />
                                 {showPass === "password" ? (
-                                    <BsEyeSlash className="icon-password" size={20} onClick={handleShowPass} />
+                                    <BsEyeSlash
+                                        className={
+                                            valuePassword.length
+                                                ? "icon-password-active"
+                                                : "icon-password"
+                                        }
+                                        size={20}
+                                        onClick={handleShowPass}
+                                    />
                                 ) : (
-                                    <AiOutlineEye className="icon-password" size={20} onClick={handleHidePass} />
+                                    <AiOutlineEye
+                                        className={
+                                            valuePassword.length
+                                                ? "icon-password-active"
+                                                : "icon-password"
+                                        }
+                                        size={20}
+                                        onClick={handleHidePass}
+                                    />
                                 )}
                             </div>
                         </div>
-                        {checkLogin
-                            ? (
+                        {checkLogin ? (
+                            <div className="type-error">
+                                <span>Vui lòng nhập tài khoản và mật khẩu</span>
+                            </div>
+                        ) : (
+                            accountLoginStatus.error &&
+                            !accountLoginStatus.loading && (
                                 <div className="type-error">
-                                    <span>Vui lòng nhập tài khoản và mật khẩu</span>
+                                    <span>{accountLoginStatus.error}</span>
                                 </div>
                             )
-                            : (
-                                accountLoginStatus.error && !accountLoginStatus.loading && (
-                                    <div className="type-error">
-                                        <span>{accountLoginStatus.error}</span>
-                                    </div>
-                                )
-                            )
-                        }
+                        )}
                         <div className="title-forget-password">
                             <span onClick={props.handleForgetPass}>Quên mật khẩu ?</span>
                         </div>

@@ -1,14 +1,14 @@
-.main-report {
+.main-account {
     display: flex;
     padding: 0px 0px 20px 24px;
 }
 
-.main-report-child {
+.main-account-child {
     flex: 1;
     margin-right: 17px;
 }
 
-.title-main-report-child {
+.title-main-account-child {
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
@@ -16,16 +16,17 @@
     color: #FF7506;
 }
 
-.top-main-report-child {
+.top-main-account-child {
     display: flex;
     justify-content: space-between;
+    margin-top: 16px;
 }
 
-.top-status-main-report {
+.top-status-main-account {
     display: flex;
 }
 
-.status-main-report-child {
+.status-main-child {
     margin-right: 24px;
 
     p {
@@ -35,11 +36,6 @@
         font-weight: 600;
         line-height: 24px;
     }
-}
-
-.status-date-main-child {
-    display: flex;
-    align-items: center;
 }
 
 .status-main-child-selected {
@@ -53,7 +49,7 @@
     }
 }
 
-.top-search-main-report {
+.top-search-main-account {
     position: relative;
 
     p {
@@ -86,11 +82,11 @@
     cursor: pointer;
 }
 
-.table-content-main-report {
+.table-content-main-account {
     margin-top: 16px;
 }
 
-.table-report {
+.table-account {
     .ant-table-tbody {
         tr {
             td {
@@ -100,12 +96,12 @@
     }
 }
 
-.add-report {
+.add-account {
     width: 80px;
-    margin-top: 75px;
+    margin-top: 128px;
 }
 
-.button-add-report {
+.button-add-account {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -128,22 +124,20 @@
     }
 }
 
-.status-active {
+.status-active,
+.status-connect {
     display: flex;
     align-items: center;
 }
 
-.icon-waiting-report {
+.icon-active,
+.icon-connect-active {
     margin-right: 4px;
-    color: #4277FF;
+    color: #34CD26;
 }
 
-.icon-used-report {
+.icon-shutdown,
+.icon-unconnect {
     margin-right: 4px;
-    color: #7E7D88;
-}
-
-.icon-skip-report {
-    margin-right: 4px;
-    color: #E73F3F;
+    color: #EC3740;
 }

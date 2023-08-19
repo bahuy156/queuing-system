@@ -1,0 +1,169 @@
+.wrapper-add-account {
+    padding: 0px 64px 32px 24px;
+}
+
+.title-add-account {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px;
+    color: #FF7506;
+}
+
+.content-add-account {
+    padding: 16px 24px 93px 24px;
+    margin-top: 16px;
+    border-radius: 16px;
+    background-color: #fff;
+}
+
+.title-content-add-account {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    color: #FF7506;
+}
+
+.content-main-add-account {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.content-main-add-account-child1 {
+    flex: 0 50%;
+    max-width: 48.5%;
+    margin-right: 34px;
+}
+
+.content-main-add-account-child2 {
+    flex: 0 50%;
+    max-width: 48.5%;
+}
+
+.content-main-add-account-child {
+    position: relative;
+    margin-top: 16px;
+}
+
+.name-content-main-add-account-child {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+
+    p {
+        margin-right: 0 !important;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+    }
+
+    span {
+        margin-left: 3px;
+        color: #FF4747;
+    }
+}
+
+.content-bot-add-account {
+    margin-top: 16px;
+}
+
+.name-content-bot-add-account {
+    width: 1160px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+
+    p {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+    }
+
+    span {
+        margin-left: 3px;
+        color: #FF4747;
+    }
+}
+
+.footer-content-add-account {
+    display: flex;
+    align-items: center;
+    margin-top: 18px;
+
+    span {
+        margin-right: 3px;
+        color: #FF4747;
+    }
+
+    p {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 21px;
+        color: #7E7D88;
+    }
+}
+
+.button-account {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.btn-cancel-account,
+.btn-add-account {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    p {
+        font-family: Nunito;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+}
+
+.btn-cancel-account {
+    margin-right: 30px;
+    padding: 10px 44px;
+    border: 1px solid #FF9138;
+    color: #FF9138;
+    background-color: #FFF2E7;
+}
+
+.btn-add-account {
+    padding: 10px 49px;
+    border: 1px solid #FF9138;
+    color: #fff;
+    background-color: #FF9138;
+}
+
+.icon-password-active3 {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: 39px;
+    margin-left: -31px;
+    opacity: 1;
+    transition: .2s linear;
+    cursor: pointer;
+}
+
+.icon-password3 {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: 39px;
+    margin-left: -31px;
+    opacity: 0;
+    transition: .2s linear;
+    cursor: pointer;
+}

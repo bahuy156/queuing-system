@@ -72,9 +72,18 @@
     align-items: center;
 }
 
+.icon-password-active {
+    opacity: 1;
+    margin-left: -35px;
+    cursor: pointer;
+    transition: .2s linear;
+}
+
 .icon-password {
     margin-left: -35px;
     cursor: pointer;
+    opacity: 0;
+    transition: .2s linear;
 }
 
 .type-error {

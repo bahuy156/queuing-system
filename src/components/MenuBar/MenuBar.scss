@@ -11,6 +11,7 @@
 }
 
 .nav-menu-child {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 12px 15px 12px 16px;
@@ -29,6 +30,15 @@
         line-height: 24px;
     }
 
+    &:hover {
+        color: #FF7506;
+        background-color: #FFF2E7;
+
+        .icon-nav {
+            color: #FF7506;
+        }
+    }
+
     &.active {
         .icon-nav {
             color: #fff;
@@ -40,9 +50,102 @@
     }
 }
 
+.nav-menu-child:last-child {
+    &:hover {
+        .sub-menu {
+            display: block;
+        }
+    }
+}
+
+.nav-menu-child-active {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 12px 15px 12px 16px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #fff;
+    background-color: #FF7506;
+    cursor: pointer;
+    transition: .1s linear;
+
+    span {
+        margin-left: 8px;
+        margin-right: 12px;
+        font-size: 16px;
+        font-style: normal;
+        line-height: 24px;
+    }
+
+    .icon-nav {
+        color: #fff;
+    }
+
+    &:hover {
+        color: #fff;
+        background-color: #FF7506;
+
+        .icon-nav {
+            color: #fff;
+        }
+
+        .sub-menu {
+            display: block;
+        }
+    }
+}
+
 .icon-nav {
     font-size: 22px;
     color: #A9A9B0;
+}
+
+.sub-menu {
+    position: absolute;
+    display: none;
+    top: 0;
+    right: -180px;
+    width: 180px;
+    background-color: #fff;
+    z-index: 999;
+
+    .sub-menu-child {
+        display: block;
+        padding: 12px 15px 12px 16px;
+        margin-bottom: 6px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+        text-decoration: none;
+        color: #7E7D88;
+        transition: .1s linear;
+
+        &:hover {
+            color: #FF7506;
+            background-color: #FFF2E7;
+
+            .icon-nav {
+                color: #FF7506;
+            }
+        }
+
+        &.active {
+            .icon-nav {
+                color: #fff;
+            }
+
+            color: #fff;
+            font-weight: 700;
+            background-color: #FF7506;
+        }
+    }
+
+    .sub-menu-child:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .logout-button {

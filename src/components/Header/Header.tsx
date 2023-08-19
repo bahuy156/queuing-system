@@ -17,7 +17,7 @@ function Header(props: PropsParent) {
                 <div className="icon-notification-default">
                     <BiSolidBell className="icon-notification2" />
                 </div>
-                <Link to={publicRoutes[7].path} className="info-notification-default">
+                <Link to={publicRoutes[6].path} className="info-notification-default">
                     <img src={bahuyLogo} alt="" />
                     <div className="info-notification-default-child">
                         <span>Xin chào</span>
