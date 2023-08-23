@@ -1,0 +1,20 @@
+import "./NavTopServiceAdd.scss"
+import { MdKeyboardArrowRight } from "react-icons/md"
+
+interface PropsChild {
+    handleBackList: any
+}
+
+function NavTopServiceAdd(props: PropsChild) {
+    return (
+        <div className="wrapper-navtop-device-add">
+            <h4 className="text-device-add1">Dịch vụ</h4>
+            <MdKeyboardArrowRight className="icon-nav-top" />
+            <h4 className="text-device-add2" onClick={props.handleBackList} >Danh sách dịch vụ</h4>
+            <MdKeyboardArrowRight className="icon-nav-top" />
+            <h4 className="text-device-add3">Thêm dịch vụ</h4>
+        </div>
+    );
+}
+
+export default NavTopServiceAdd;

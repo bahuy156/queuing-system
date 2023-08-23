@@ -4,16 +4,16 @@ import { Select } from "antd";
 import { useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { AnyAction } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../redux/reducer";
-import { addDevices } from "../../../redux/actions/actions";
+import { AppDispatch } from "../../../redux/store";
+import { addDevices } from "../../../redux/actions/deviceActions";
 
 interface PropsChild {
     handleClosePageAdd: any;
 }
 
 function AddDevice(props: PropsChild) {
+    const dispatch: AppDispatch = useDispatch();
+
     const [codeValue, setCodeValue] = useState<string>("");
     const [ipValue, setIpValue] = useState<string>("");
     const [select, setSeclect] = useState<string>("")
@@ -21,9 +21,7 @@ function AddDevice(props: PropsChild) {
     const [passValue, setPassValue] = useState<string>("");
     const [serviceValue, setServiceValue] = useState<string>("");
 
-    const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
-
-    const handleAddDevices = () => {
+    const handleAddDevices = async () => {
         if (codeValue && ipValue && serviceValue) {
             const newDevice = {
                 key: "",
@@ -35,7 +33,7 @@ function AddDevice(props: PropsChild) {
                 services: serviceValue,
             };
 
-            dispatch(addDevices(newDevice));
+            await dispatch(addDevices(newDevice));
             props.handleClosePageAdd();
         } else {
             alert("Vui lòng điền đầy đủ thông tin!");

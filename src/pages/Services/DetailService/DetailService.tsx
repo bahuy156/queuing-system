@@ -16,6 +16,7 @@ import { DataDetailService } from "../../../types";
 interface PropsChild {
     handleOpenPageUpdate: any
     handleClosePageDetail: any
+    selectedServices: any
 }
 
 function DetailService(props: PropsChild) {
@@ -104,9 +105,9 @@ function DetailService(props: PropsChild) {
                                 <p>Mô tả:</p>
                             </div>
                             <div className="content-top-main-detail-left-child2">
-                                <p>201</p>
-                                <p>Khám tim mạch</p>
-                                <p>Chuyên các bệnh lý về tim</p>
+                                <p>{props.selectedServices?.code}</p>
+                                <p>{props.selectedServices?.servicename}</p>
+                                <p>{props.selectedServices?.desc}</p>
                             </div>
                         </div>
                     </div>
@@ -173,7 +174,7 @@ function DetailService(props: PropsChild) {
                     </div>
                 </div>
                 <div className="main-detail-right">
-                    <button className="btn-update-service" onClick={() => props.handleOpenPageUpdate()}>
+                    <button className="btn-update-service" onClick={() => props.handleOpenPageUpdate(props.selectedServices)}>
                         <div className="icon-service"><FaPencilAlt /></div>
                         <p>Cập nhật <br></br> danh sách
                         </p>

@@ -1,23 +1,54 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import "./ListService.scss"
+import "./ListService.scss";
 import { Input, Select } from "antd";
 import { AiFillCaretDown } from "react-icons/ai";
 import { GoDotFill } from "react-icons/go";
-import { BiSolidRightArrow } from "react-icons/bi"
+import { BiSolidRightArrow } from "react-icons/bi";
 import { BiSearch } from "react-icons/bi";
 import { DataTableSev } from "../../../types";
 import { ColumnsType } from "antd/es/table";
 import { Table } from "antd";
-import type { DatePickerProps } from 'antd';
-import { DatePicker } from 'antd';
+import { useEffect, useState } from "react";
+import { DatePicker } from "antd";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchServices, searchService } from "../../../redux/actions/serviceActions";
 
 interface PropsChild {
-    handleOpenPageAdd: any
-    handleOpenPageDetail: any
-    handleOpenPageUpdate: any
+    handleOpenPageAdd: any;
+    handleOpenPageDetail: any;
+    handleOpenPageUpdate: any;
 }
 
 function ListService(props: PropsChild) {
+    const dispatch: AppDispatch = useDispatch();
+    const services = useSelector((state: RootState) => state.service.datas);
+
+    const [valueStatus, setValueStatus] = useState<string>("Tất cả");
+    const [findByCode, setFindByCode] = useState<string>("")
+
+    // handle search by code
+    const handleSearchByCode = () => {
+        if (findByCode) {
+            dispatch(searchService(findByCode))
+        }
+    }
+
+    useEffect(() => {
+        handleSearchByCode()
+    }, [findByCode])
+
+    // handle filter data
+    let filterServices = services.filter(
+        (item) => valueStatus === "Tất cả" || item.status === valueStatus
+    );
+
+    // fetch data
+    useEffect(() => {
+        dispatch(fetchServices());
+    }, [dispatch]);
+
     // data table
     const columns: ColumnsType<DataTableSev> = [
         {
@@ -27,8 +58,8 @@ function ListService(props: PropsChild) {
         },
         {
             title: "Tên dịch vụ",
-            dataIndex: "name",
-            key: "name",
+            dataIndex: "servicename",
+            key: "servicename",
         },
         {
             title: "Mô tả",
@@ -42,83 +73,37 @@ function ListService(props: PropsChild) {
             render: (text: any) => {
                 if (text === "Hoạt động")
                     return (
-                        <span className="status-active"><GoDotFill className="icon-active" /><p>Hoạt động</p></span>
+                        <span className="status-active">
+                            <GoDotFill className="icon-active" />
+                            <p>Hoạt động</p>
+                        </span>
                     );
                 if (text === "Ngưng hoạt động")
                     return (
-                        <span className="status-active"><GoDotFill className="icon-shutdown" /><p>Ngưng hoạt động</p></span>
-                    )
+                        <span className="status-active">
+                            <GoDotFill className="icon-shutdown" />
+                            <p>Ngưng hoạt động</p>
+                        </span>
+                    );
             },
         },
         {
             title: "",
             key: "detail",
             dataIndex: "detail",
-            render: () => <a onClick={() => props.handleOpenPageDetail()}>Chi Tiết</a>,
+            render: (_, services: DataTableSev) => (
+                <a onClick={() => props.handleOpenPageDetail(services)}>Chi Tiết</a>
+            ),
         },
         {
             title: "",
             key: "update",
             dataIndex: "update",
-            render: () => <a onClick={() => props.handleOpenPageUpdate()}>Cập nhật</a>,
+            render: (_, services: DataTableSev) => (
+                <a onClick={() => props.handleOpenPageUpdate(services)}>Cập nhật</a>
+            ),
         },
     ];
-
-    const data: DataTableSev[] = [
-        {
-            key: '1',
-            code: "KIO_01",
-            name: "Kiosk",
-            desc: "Mô tả dịch vụ 1",
-            status: "Hoạt động",
-        },
-        {
-            key: '2',
-            code: "KIO_01",
-            name: "Kiosk",
-            desc: "Mô tả dịch vụ 1",
-            status: "Ngưng hoạt động",
-        },
-        {
-            key: '3',
-            code: "KIO_01",
-            name: "Kiosk",
-            desc: "Mô tả dịch vụ 1",
-            status: "Hoạt động",
-        },
-        {
-            key: '4',
-            code: "KIO_01",
-            name: "Kiosk",
-            desc: "Mô tả dịch vụ 1",
-            status: "Hoạt động",
-        },
-        {
-            key: '5',
-            code: "KIO_01",
-            name: "Kiosk",
-            desc: "Mô tả dịch vụ 1",
-            status: "Ngưng hoạt động",
-        },
-        {
-            key: '6',
-            code: "KIO_01",
-            name: "Kiosk",
-            desc: "Mô tả dịch vụ 1",
-            status: "Ngưng hoạt động",
-        },
-        {
-            key: '7',
-            code: "KIO_01",
-            name: "Kiosk",
-            desc: "Mô tả dịch vụ 1",
-            status: "Hoạt động",
-        },
-    ];
-
-    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-        console.log(date, dateString);
-    };
 
     return (
         <div className="main-service">
@@ -136,6 +121,7 @@ function ListService(props: PropsChild) {
                                 suffixIcon={
                                     <AiFillCaretDown size={20} style={{ color: "#FF7506" }} />
                                 }
+                                onChange={(value: string) => setValueStatus(value)}
                                 options={[
                                     { value: "Tất cả", label: "Tất cả" },
                                     { value: "Hoạt động", label: "Hoạt động" },
@@ -146,16 +132,22 @@ function ListService(props: PropsChild) {
                         <div className="status-main-service-child">
                             <p>Chọn thời gian</p>
                             <div className="status-date-main-child">
-                                <DatePicker format="DD/MM/YYYY" onChange={onChange} style={{ marginRight: 7, height: 32 }} />
+                                <DatePicker
+                                    format="DD/MM/YYYY"
+                                    style={{ marginRight: 7, height: 32 }}
+                                />
                                 <BiSolidRightArrow size={10} />
-                                <DatePicker format="DD/MM/YYYY" onChange={onChange} style={{ marginLeft: 7, height: 32 }} />
+                                <DatePicker
+                                    format="DD/MM/YYYY"
+                                    style={{ marginLeft: 7, height: 32 }}
+                                />
                             </div>
                         </div>
                     </div>
 
                     <div className="top-search-main-service">
                         <p>Từ khóa</p>
-                        <Input placeholder="Nhập từ khóa" />
+                        <Input placeholder="Nhập từ khóa" onChange={(e) => setFindByCode(e.target.value)} />
                         <BiSearch className="icon-search" />
                     </div>
                 </div>
@@ -164,8 +156,9 @@ function ListService(props: PropsChild) {
                     <div className="table-content-main-service">
                         <Table
                             className="table-service"
+                            rowKey={(record) => record.id!}
                             columns={columns}
-                            dataSource={data}
+                            dataSource={filterServices}
                             pagination={{ pageSize: 7 }}
                         />
                     </div>

@@ -12,12 +12,14 @@
 
 .main-detail-service {
     display: flex;
+    align-items: flex-start;
     justify-content: space-between;
     margin-top: 25px;
 }
 
 .main-detail-left {
-    padding: 16px 68px 198px 24px;
+    height: 567.4px;
+    padding: 16px 34px 24px 24px;
     border-radius: 12px;
     background-color: #fff;
     box-shadow: 2px 2px 8px 0px rgba(232, 239, 244, 0.80);
@@ -33,7 +35,7 @@
 
 .content-top-main-detail-left {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     margin-top: 12px;
 }
 
@@ -48,6 +50,7 @@
 }
 
 .content-top-main-detail-left-child2 {
+    width: 230px;
     margin-left: 22px;
 
     p {
@@ -137,8 +140,7 @@
 }
 
 .main-detail-center {
-    width: 780px;
-    margin-left: 5px;
+    width: 765px;
     padding: 16px 24px 0px 24px;
     border-radius: 12px;
     background-color: #fff;

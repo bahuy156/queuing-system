@@ -1,0 +1,29 @@
+.wrapper-navtop-device-add {
+    display: flex;
+    align-items: center;
+}
+
+.text-device-add1,
+.text-device-add2,
+.text-device-add3 {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    color: #7E7D88;
+    cursor: pointer;
+}
+
+.text-device-add2 {
+    text-decoration: none;
+}
+
+.icon-nav-top {
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #7E7D88;
+}
+
+.text-device-add3 {
+    color: #FF7506 !important;
+}

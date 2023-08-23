@@ -9,12 +9,10 @@ import { ColumnsType } from "antd/es/table";
 import { AiFillCaretDown } from "react-icons/ai";
 import { GoDotFill } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDevices, fetchFilteredDevices, fetchDevicesByCode } from "../../../redux/actions/actions";
-import { RootState } from "../../../redux/reducer";
+import { fetchDevices, searchDevice } from "../../../redux/actions/deviceActions";
 import { useEffect, useState } from "react";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
 import { DataTable } from "../../../types";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 interface PropsChild {
     handleOpenPageAdd: any;
@@ -23,32 +21,30 @@ interface PropsChild {
 }
 
 function ListDevice(props: PropsChild) {
-    const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const devices = useSelector((state: RootState) => state.device.datas);
 
-    const [valueStatus, setValueStatus] = useState<string>("Tất cả")
-    const [valueConnect, setValueConnect] = useState<string>("Tất cả")
-    const [findData, setFindData] = useState<string>("")
+    const [valueStatus, setValueStatus] = useState<string>("Tất cả");
+    const [valueConnect, setValueConnect] = useState<string>("Tất cả");
+    const [findData, setFindData] = useState<string>("");
 
     // handle search by code
     const handleSearch = () => {
         if (findData) {
-            dispatch(fetchDevicesByCode(findData));
+            dispatch(searchDevice(findData));
         }
     };
 
     useEffect(() => {
-        handleSearch()
-    }, [findData])
+        handleSearch();
+    }, [findData]);
 
-    const handleGetValueSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFindData(e.target.value)
-    }
-
-    // filter data
-    useEffect(() => {
-        dispatch(fetchFilteredDevices(valueStatus, valueConnect))
-    }, [dispatch, valueStatus, valueConnect])
+    // handle filter data
+    let filterDevice = devices.filter(
+        (item) =>
+            (valueConnect === "Tất cả" || item.connect === valueConnect) &&
+            (valueStatus === "Tất cả" || item.status === valueStatus)
+    );
 
     // fetch data
     useEffect(() => {
@@ -79,12 +75,18 @@ function ListDevice(props: PropsChild) {
             render: (text: any) => {
                 if (text === "Hoạt động")
                     return (
-                        <span className="status-active"><GoDotFill className="icon-active" /><p>Hoạt động</p></span>
+                        <span className="status-active">
+                            <GoDotFill className="icon-active" />
+                            <p>Hoạt động</p>
+                        </span>
                     );
                 if (text === "Ngưng hoạt động")
                     return (
-                        <span className="status-active"><GoDotFill className="icon-shutdown" /><p>Ngưng hoạt động</p></span>
-                    )
+                        <span className="status-active">
+                            <GoDotFill className="icon-shutdown" />
+                            <p>Ngưng hoạt động</p>
+                        </span>
+                    );
             },
         },
         {
@@ -94,12 +96,18 @@ function ListDevice(props: PropsChild) {
             render: (text: any) => {
                 if (text === "Kết nối")
                     return (
-                        <span className="status-connect"><GoDotFill className="icon-connect-active" /><p>Kết nối</p></span>
+                        <span className="status-connect">
+                            <GoDotFill className="icon-connect-active" />
+                            <p>Kết nối</p>
+                        </span>
                     );
                 if (text === "Mất kết nối")
                     return (
-                        <span className="status-connect"><GoDotFill className="icon-unconnect" /><p>Mất kết nối</p></span>
-                    )
+                        <span className="status-connect">
+                            <GoDotFill className="icon-unconnect" />
+                            <p>Mất kết nối</p>
+                        </span>
+                    );
             },
         },
         {
@@ -108,9 +116,7 @@ function ListDevice(props: PropsChild) {
             key: "services",
             render: (text: any) => (
                 <div className="serives-used">
-                    <p>
-                        {text.length < 30 ? text : text.slice(0, 30) + "..."}
-                    </p>
+                    <p>{text.length < 30 ? text : text.slice(0, 30) + "..."}</p>
                     <a onClick={() => alert(text)}>Xem thêm</a>
                 </div>
             ),
@@ -119,25 +125,19 @@ function ListDevice(props: PropsChild) {
             title: "",
             key: "detail",
             dataIndex: "detail",
-            render: (_, device: DataTable) => <a onClick={() => props.handleOpenPageDetail(device)}>Chi Tiết</a>,
+            render: (_, device: DataTable) => (
+                <a onClick={() => props.handleOpenPageDetail(device)}>Chi Tiết</a>
+            ),
         },
         {
             title: "",
             key: "update",
             dataIndex: "update",
-            render: (_, device: DataTable) => <a onClick={() => props.handleOpenPageUpdate(device)}>Cập nhật</a>,
+            render: (_, device: DataTable) => (
+                <a onClick={() => props.handleOpenPageUpdate(device)}>Cập nhật</a>
+            ),
         },
     ];
-
-    const data = devices.map((device: any, index: any) => ({
-        key: String(index + 1),
-        code: device.code,
-        name: device.name,
-        ip: device.ip,
-        status: device.status,
-        connect: device.connect,
-        services: device.services,
-    }));
 
     return (
         <div className="main-device">
@@ -176,7 +176,7 @@ function ListDevice(props: PropsChild) {
                                 options={[
                                     { value: "Tất cả", label: "Tất cả" },
                                     { value: "Kết nối", label: "Kết nối" },
-                                    { value: "Ngưng Kết nối", label: "Mất Kết nối" },
+                                    { value: "Mất kết nối", label: "Mất kết nối" },
                                 ]}
                             />
                         </div>
@@ -186,7 +186,8 @@ function ListDevice(props: PropsChild) {
                         <p>Từ khóa</p>
                         <Input
                             placeholder="Nhập từ khóa"
-                            onChange={(e) => handleGetValueSearch(e)} />
+                            onChange={(e) => setFindData(e.target.value)}
+                        />
                         <BiSearch className="icon-search" />
                     </div>
                 </div>
@@ -194,8 +195,9 @@ function ListDevice(props: PropsChild) {
                 <div className="content-main-device-child">
                     <div className="table-content-main-device">
                         <Table
+                            rowKey={(record) => record.id!}
                             columns={columns}
-                            dataSource={data}
+                            dataSource={filterDevice}
                             pagination={{ pageSize: 7 }}
                         />
                     </div>
@@ -230,5 +232,3 @@ function ListDevice(props: PropsChild) {
 }
 
 export default ListDevice;
-
-

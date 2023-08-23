@@ -5,17 +5,49 @@ import { useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import { BsEyeSlash } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
+import { AppDispatch } from "../../../../redux/store";
+import { useDispatch } from "react-redux";
+import { addAccount } from "../../../../redux/actions/accountActions";
 
 interface PropsChild {
     handleClosePageAdd: any
 }
 
 function AddAccount(props: PropsChild) {
+    const dispatch: AppDispatch = useDispatch()
+
     const [showPass, setShowPass] = useState<string>("password");
     const [showPass2, setShowPass2] = useState<string>("password");
     const [valueNewPass, setValueNewPass] = useState<string>("");
     const [valueNewPass2, setValueNewPass2] = useState<string>("");
+    const [valueName, setValueName] = useState<string>("");
+    const [valueSdt, setValueSdt] = useState<string>("");
+    const [valueEmail, setValueEmail] = useState<string>("");
+    const [valueRole, setValueRole] = useState<string>("");
+    const [valueLoginName, setValueLoginNAme] = useState<string>("");
+    const [valueStatus, setValueStatus] = useState<string>("");
 
+    // handle add account
+    const handleAddAccount = async () => {
+        if (valueName && valueSdt && valueEmail && valueRole) {
+            const newAccount = {
+                username: valueName,
+                sdt: valueSdt,
+                email: valueEmail,
+                loginname: valueLoginName,
+                password: valueNewPass,
+                role: valueRole,
+                status: valueStatus,
+            }
+
+            await dispatch(addAccount(newAccount))
+            props.handleClosePageAdd()
+        } else {
+            alert("Vui lòng nhập đầy đủ thông tin")
+        }
+    }
+
+    // handle toggle pass
     const togglePassword = (setFunction: (value: string) => void, currentState: string) => {
         setFunction(currentState === "password" ? "text" : "password");
     };
@@ -36,6 +68,7 @@ function AddAccount(props: PropsChild) {
                             </div>
                             <Input
                                 placeholder="Nhập họ tên"
+                                onChange={(e) => setValueName(e.target.value)}
                             />
                         </div>
                         <div className="content-main-add-account-child">
@@ -45,6 +78,7 @@ function AddAccount(props: PropsChild) {
                             </div>
                             <Input
                                 placeholder="Nhập số điện thoại"
+                                onChange={(e) => setValueSdt(e.target.value)}
                             />
                         </div>
                         <div className="content-main-add-account-child">
@@ -54,6 +88,7 @@ function AddAccount(props: PropsChild) {
                             </div>
                             <Input
                                 placeholder="Nhập email"
+                                onChange={(e) => setValueEmail(e.target.value)}
                             />
                         </div>
                         <div className="content-main-add-account-child">
@@ -68,6 +103,7 @@ function AddAccount(props: PropsChild) {
                                     <AiFillCaretDown size={20} style={{ color: "#FF7506" }} />
                                 }
                                 style={{ width: 572, height: 32 }}
+                                onChange={(value: string) => setValueRole(value)}
                                 options={[
                                     { value: "Kế toán", label: "Kế toán" },
                                     { value: "Quản lý", label: "Quản lý" },
@@ -85,6 +121,7 @@ function AddAccount(props: PropsChild) {
                             </div>
                             <Input
                                 placeholder="Nhập tài khoản"
+                                onChange={(e) => setValueLoginNAme(e.target.value)}
                             />
                         </div>
                         <div className="content-main-add-account-child">
@@ -164,6 +201,7 @@ function AddAccount(props: PropsChild) {
                                     <AiFillCaretDown size={20} style={{ color: "#FF7506" }} />
                                 }
                                 style={{ width: 572, height: 32 }}
+                                onChange={(value: string) => setValueStatus(value)}
                                 options={[
                                     { value: "Hoạt động", label: "Hoạt động" },
                                     { value: "Ngưng hoạt động", label: "Ngưng hoạt động" },
@@ -188,7 +226,7 @@ function AddAccount(props: PropsChild) {
                 </button>
                 <button
                     className="btn-add-account"
-                    onClick={() => props.handleClosePageAdd()}
+                    onClick={handleAddAccount}
                 >
                     <p>Thêm</p>
                 </button>

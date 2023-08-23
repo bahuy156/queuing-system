@@ -6,12 +6,11 @@ import LogoLoginRight from "../../../images/logo-login.png";
 import { BsEyeSlash } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../redux/reducer";
 import { useDispatch, useSelector } from "react-redux";
-import { AnyAction } from "redux";
 import { useNavigate } from "react-router-dom";
-import { verifyAccount } from "../../../redux/actions/actions";
+// import { verifyAccount } from "../../../redux/actions/actions";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { fetchAccount } from "../../../redux/actions/accountActions";
 
 interface PropsChild {
     handleForgetPass: any;
@@ -21,7 +20,8 @@ function MainLogin(props: PropsChild) {
     const [showPass, setShowPass] = useState<string>("password");
     const [valueNameLogin, setValueNameLogin] = useState<string>("");
     const [valuePassword, setValuePassWord] = useState<string>("");
-    const [checkLogin, setChecklogin] = useState<boolean>(false);
+    const [checkLogin, setChecklogin] = useState<boolean>(true);
+    const [checkLoginValue, setCheckloginValue] = useState<boolean>();
 
     const handleShowPass = () => {
         setShowPass("text");
@@ -32,26 +32,35 @@ function MainLogin(props: PropsChild) {
     };
 
     // handle check login
-    const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const accountInfo = useSelector((state: RootState) => state.account.datas);
-    const accountLoginStatus = useSelector((state: RootState) => state.login);
 
     const navaigate = useNavigate();
 
     useEffect(() => {
-        if (accountInfo.length && accountLoginStatus.success) {
-            navaigate("/home");
-        }
-    }, [accountInfo, accountLoginStatus]);
+        dispatch(fetchAccount());
+    }, []);
 
     const handleCheckLogin = () => {
-        if (valueNameLogin === "" && valuePassword === "") {
-            setChecklogin(true);
-            return;
-        } else {
-            setChecklogin(false);
-        }
-        dispatch(verifyAccount(valueNameLogin, valuePassword));
+        accountInfo.forEach((account) => {
+            if (
+                valueNameLogin === account.loginname &&
+                valuePassword === account.password
+            ) {
+                setChecklogin(true);
+                navaigate("/home");
+            } else {
+                setChecklogin(false);
+            }
+
+            if (valueNameLogin === "" && valuePassword === "") {
+                setCheckloginValue(true)
+            } else if (valueNameLogin !== account.loginname ||
+                valuePassword !== account.password
+            ) {
+                setCheckloginValue(false)
+            }
+        });
     };
 
     return (
@@ -62,10 +71,9 @@ function MainLogin(props: PropsChild) {
                     <div className="main-login-left-park">
                         <div
                             className={
-                                checkLogin ||
-                                    (accountLoginStatus.error && !accountLoginStatus.loading)
-                                    ? "main-login-left-park-child-error"
-                                    : "main-login-left-park-child"
+                                checkLogin
+                                    ? "main-login-left-park-child"
+                                    : "main-login-left-park-child-error"
                             }
                         >
                             <div className="top-login-child">
@@ -76,17 +84,15 @@ function MainLogin(props: PropsChild) {
                                 value={valueNameLogin}
                                 type="text"
                                 onChange={(e) => {
-                                    setChecklogin(false);
                                     setValueNameLogin(e.target.value);
                                 }}
                             />
                         </div>
                         <div
                             className={
-                                checkLogin ||
-                                    (accountLoginStatus.error && !accountLoginStatus.loading)
-                                    ? "main-login-left-park-child-error"
-                                    : "main-login-left-park-child"
+                                checkLogin
+                                    ? "main-login-left-park-child"
+                                    : "main-login-left-park-child-error"
                             }
                         >
                             <div className="top-login-child">
@@ -122,15 +128,14 @@ function MainLogin(props: PropsChild) {
                                 )}
                             </div>
                         </div>
-                        {checkLogin ? (
-                            <div className="type-error">
-                                <span>Vui lòng nhập tài khoản và mật khẩu</span>
-                            </div>
-                        ) : (
-                            accountLoginStatus.error &&
-                            !accountLoginStatus.loading && (
+                        {!checkLogin && (
+                            checkLoginValue ? (
                                 <div className="type-error">
-                                    <span>{accountLoginStatus.error}</span>
+                                    <span>Vui lòng nhập tài khoản và mật khẩu</span>
+                                </div>
+                            ) : (
+                                <div className="type-error">
+                                    <span>Sai mật khẩu hoặc tên đăng nhập</span>
                                 </div>
                             )
                         )}

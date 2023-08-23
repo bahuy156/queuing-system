@@ -1,8 +1,18 @@
-import { createStore, applyMiddleware } from 'redux';
-// import { configureStore } from '@reduxjs/toolkit';
-import thunk from 'redux-thunk';
-import rootReducer from './reducer/index';
+import { configureStore } from '@reduxjs/toolkit';
+import device from "../redux/actions/deviceActions"
+import account from "../redux/actions/accountActions"
+import service from '../redux/actions/serviceActions';
+import provideNumber from '../redux/actions/provideNumActions';
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = configureStore({
+    reducer: {
+        account: account,
+        device: device,
+        service: service,
+        provideNum: provideNumber
+    }
+})
 
 export default store;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

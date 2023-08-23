@@ -3,6 +3,9 @@ import { useState } from "react";
 import ListRole from "./ListRole/ListRole";
 import AddRole from "./AddRole/AddRole";
 import UpdateRole from "./UpdateRole/UpdateRole";
+import NavTopRoleManageList from "../../../components/Header/NavTopRoleManage/NavTopRoleManageList/NavTopRoleManageList";
+import NavTopRoleManageAdd from "../../../components/Header/NavTopRoleManage/NavTopRoleManageAdd/NavTopRoleManageAdd";
+import NavTopRoleManageUpdate from "../../../components/Header/NavTopRoleManage/NavTopRoleManageUpdate/NavTopRoleManageUpdate";
 
 function RoleManage() {
     const [pageSystem, setPageSystem] = useState<string>("0");
@@ -17,7 +20,17 @@ function RoleManage() {
 
     return (
         <div>
-            <Header headName="Quản lý vai trò" />
+            <Header
+                headName={
+                    pageSystem === "0" ? (
+                        <NavTopRoleManageList />
+                    ) : pageSystem === "1" ? (
+                        <NavTopRoleManageAdd handleBackList={() => setPageSystem("0")} />
+                    ) : (
+                        <NavTopRoleManageUpdate handleBackList={() => setPageSystem("0")} />
+                    )
+                }
+            />
 
             {pageSystem === "0" ? (
                 <ListRole

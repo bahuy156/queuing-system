@@ -1,16 +1,39 @@
 import "./AddService.scss"
 import { Input } from "antd";
 import { Checkbox } from 'antd';
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+// import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { useState } from "react"
+import { AppDispatch } from "../../../redux/store";
+import { useDispatch } from "react-redux";
+import { addServices } from "../../../redux/actions/serviceActions";
 
 interface PropsChild {
     handleClosePageAdd: any
 }
 
 function AddService(props: PropsChild) {
-    const onChange = (e: CheckboxChangeEvent) => {
-        console.log(`checked = ${e.target.checked}`);
-    };
+    const dispatch: AppDispatch = useDispatch()
+
+    const [codeValue, setCodeValue] = useState<string>("");
+    const [nameValue, setNameValue] = useState<string>("");
+    const [descValue, setDescValue] = useState<string>("");
+
+    const handleAddServices = async () => {
+        if (codeValue && nameValue && descValue) {
+            const newServices = {
+                key: "",
+                code: codeValue,
+                servicename: nameValue,
+                desc: descValue,
+                status: "Hoạt động"
+            }
+
+            await dispatch(addServices(newServices))
+            props.handleClosePageAdd()
+        } else {
+            alert("Vui lòng điền đầy đủ thông tin!");
+        }
+    }
 
     return (
         <div className="wrapper-add-service">
@@ -28,6 +51,7 @@ function AddService(props: PropsChild) {
                             </div>
                             <Input
                                 placeholder="Nhập mã thiết bị"
+                                onChange={(e) => setCodeValue(e.target.value)}
                             />
                         </div>
                         <div className="content-main-add-service-child">
@@ -37,6 +61,7 @@ function AddService(props: PropsChild) {
                             </div>
                             <Input
                                 placeholder="Nhập tên thiết bị"
+                                onChange={(e) => setNameValue(e.target.value)}
                             />
                         </div>
                     </div>
@@ -48,7 +73,11 @@ function AddService(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <div className="input-content-main-add-service-child">
-                                <Input className="input-desc" placeholder="Mô tả dịch vụ" />
+                                <Input
+                                    className="input-desc"
+                                    placeholder="Mô tả dịch vụ"
+                                    onChange={(e) => setDescValue(e.target.value)}
+                                />
                             </div>
                         </div>
                     </div>
@@ -59,24 +88,24 @@ function AddService(props: PropsChild) {
 
                     <div className="content-bot-add-service-chill">
                         <div className="content-bot-add-service-chill1">
-                            <Checkbox style={{ marginRight: 7 }} onChange={onChange} />
+                            <Checkbox style={{ marginRight: 7 }} />
                             <p>Tăng tự động từ:</p>
                             <button>0001</button>
                             <span>đến</span>
                             <button>9999</button>
                         </div>
                         <div className="content-bot-add-service-chill2">
-                            <Checkbox style={{ marginRight: 7 }} onChange={onChange} />
+                            <Checkbox style={{ marginRight: 7 }} />
                             <p>Prefix:</p>
                             <button>0001</button>
                         </div>
                         <div className="content-bot-add-service-chill2">
-                            <Checkbox style={{ marginRight: 7 }} onChange={onChange} />
+                            <Checkbox style={{ marginRight: 7 }} />
                             <p>Surfix:</p>
                             <button>0001</button>
                         </div>
                         <div className="content-bot-add-service-chill2">
-                            <Checkbox style={{ marginRight: 7 }} onChange={onChange} />
+                            <Checkbox style={{ marginRight: 7 }} />
                             <p>Reset mỗi ngày</p>
                         </div>
                     </div>
@@ -97,7 +126,7 @@ function AddService(props: PropsChild) {
                 </button>
                 <button
                     className="btn-add"
-                    onClick={() => props.handleClosePageAdd()}
+                    onClick={handleAddServices}
                 >
                     <p>Thêm dịch vụ</p>
                 </button>

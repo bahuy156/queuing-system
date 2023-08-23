@@ -9,8 +9,21 @@ export interface DataType {
     useServices: string;
 }
 
+// type account 
+export interface DataAccount {
+    id?: string,
+    username: string,
+    sdt: string,
+    email: string,
+    loginname: string,
+    password: string,
+    role: string,
+    status: string,
+}
+
 // type table device
 export interface DataTable {
+    id?: string;
     key: string,
     code: string | undefined,
     name: string | undefined,
@@ -22,10 +35,11 @@ export interface DataTable {
 
 // type table services
 export interface DataTableSev {
+    id?: string,
     key: string,
-    code: string,
-    name: string,
-    desc: string,
+    code: string | undefined,
+    servicename: string | undefined,
+    desc: string | undefined,
     status: string
 }
 
@@ -38,12 +52,12 @@ export interface DataDetailService {
 
 // type table provide number
 export interface DataTableProvideNum {
-    key: string,
+    id?: string,
     stt: string,
-    nameCsm: string,
-    nameSev: string,
-    provideTime: string,
-    expỉy: string,
+    cusname: string,
+    sevname: string,
+    timeprovide: string,
+    expiry: string,
     status: string,
     supply: string,
 }
@@ -68,6 +82,7 @@ export interface DataTableListRole {
 
 // type table list account 
 export interface DataTableListAccount {
+    id?: string,
     key: string,
     nameLogin: string,
     name: string,

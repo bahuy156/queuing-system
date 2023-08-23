@@ -9,7 +9,6 @@
     font-style: normal;
     font-weight: 700;
     line-height: 30px;
-    color: #FF9138;
 }
 
 .header-default {
@@ -17,17 +16,53 @@
     align-items: center;
 }
 
-.icon-notification-default {
-    padding: 6px 7px 2px 8px;
+.wrapper-icon-notification-default {
+    position: relative;
+}
+
+.icon-notification-default,
+.icon-notification-default-active {
+    padding: 6px 7px 2px 7px;
     border-radius: 50%;
-    background-color: #FFF2E7;
     cursor: pointer;
 }
 
-.icon-notification2 {
+.icon-notification-default {
+    background-color: #FFF2E7;
+}
+
+.icon-notification-default-active {
+    background-color: #FF7506;
+}
+
+.main-notification,
+.main-notification-active {
+    position: absolute;
+    left: -110px;
+    top: 55px;
+    z-index: 999;
+}
+
+.main-notification {
+    display: none;
+}
+
+.main-notification-active {
+    display: block;
+}
+
+.icon-notification2,
+.icon-notification2-active {
     width: 20px;
     height: 20px;
+}
+
+.icon-notification2 {
     color: #FFAC6A;
+}
+
+.icon-notification2-active {
+    color: #fff;
 }
 
 .info-notification-default {

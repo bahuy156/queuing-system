@@ -1,0 +1,28 @@
+.wrapper-navtop-device-detail {
+    display: flex;
+    align-items: center;
+}
+
+.text-device-detail1,
+.text-device-detail2,
+.text-device-detail3 {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    color: #7E7D88;
+    cursor: pointer;
+}
+
+.text-device-detail2 {
+    text-decoration: none;
+}
+
+.icon-nav-top {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.text-device-detail3 {
+    color: #FF7506 !important;
+}

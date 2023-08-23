@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import "./ListProvideNum.scss"
 import { Input, Select } from "antd";
@@ -10,6 +11,10 @@ import { ColumnsType } from "antd/es/table";
 import { Table } from "antd";
 import type { DatePickerProps } from 'antd';
 import { DatePicker } from 'antd';
+import { AppDispatch, RootState } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { fetchProvideNum, searchProvideNumber } from "../../../redux/actions/provideNumActions";
 
 interface PropsChild {
     handleOpentPageNewNum: any
@@ -17,6 +22,68 @@ interface PropsChild {
 }
 
 function ListProvideNum(props: PropsChild) {
+    const dispatch: AppDispatch = useDispatch()
+    const provideNumber = useSelector((state: RootState) => state.provideNum.datas)
+
+    const [valueSearch, setValueSearch] = useState<string>("")
+    const [valueSevName, setValueSevName] = useState<string>("Tất cả")
+    const [valueStatus, setValueStatus] = useState<string>("Tất cả")
+    const [valueSupply, setValueSupply] = useState<string>("Tất cả")
+    const [dateFrom, setDateFrom] = useState<string>("")
+    const [dateTo, setDateTo] = useState<string>("")
+    const [filteredData, setFilteredData] = useState<DataTableProvideNum[]>([]);
+
+    // fetch data
+    useEffect(() => {
+        dispatch(fetchProvideNum())
+    }, [dispatch])
+
+    // handle filter data
+    const onChangeDateFrom: DatePickerProps['onChange'] = (date, dateString) => {
+        setDateFrom(dateString)
+    };
+
+    const onChangeDateTo: DatePickerProps['onChange'] = (date, dateString) => {
+        setDateTo(dateString)
+    };
+
+    const parseDate = (str: string) => {
+        const [day, month, year] = str.split("/").map(s => parseInt(s, 10));
+        return new Date(year, month - 1, day);
+    };
+
+    useEffect(() => {
+        const dateFiltered = provideNumber.filter(item => {
+            const curTimeProvide = item.timeprovide.split(" - ")
+            const timeProvideDate = parseDate(curTimeProvide[1]);
+
+            const fromDate = dateFrom ? parseDate(dateFrom) : null;
+            const toDate = dateTo ? parseDate(dateTo) : null;
+
+            return (!fromDate || timeProvideDate >= fromDate) && (!toDate || timeProvideDate <= toDate);
+        });
+
+        const finalFiltered = dateFiltered.filter(
+            item =>
+                (valueSevName === "Tất cả" || item.sevname === valueSevName) &&
+                (valueStatus === "Tất cả" || item.status === valueStatus) &&
+                (valueSupply === "Tất cả" || item.supply === valueSupply)
+        );
+
+        setFilteredData(finalFiltered);
+    }, [dateFrom, dateTo, provideNumber, valueSevName, valueStatus, valueSupply]);
+
+    // handle search by code
+    const handleSearchByCode = () => {
+        if (valueSearch) {
+            dispatch(searchProvideNumber(valueSearch));
+        }
+    }
+
+    useEffect(() => {
+        handleSearchByCode();
+    }, [valueSearch])
+
     // data table
     const columns: ColumnsType<DataTableProvideNum> = [
         {
@@ -26,23 +93,23 @@ function ListProvideNum(props: PropsChild) {
         },
         {
             title: "Tên khách hàng",
-            dataIndex: "nameCsm",
-            key: "nameCsm",
+            dataIndex: "cusname",
+            key: "cusname",
         },
         {
             title: "Tên dịch vụ",
-            dataIndex: "nameSev",
-            key: "nameSev",
+            dataIndex: "sevname",
+            key: "sevname",
         },
         {
             title: "Thời gian cấp",
-            dataIndex: "provideTime",
-            key: "provideTime",
+            dataIndex: "timeprovide",
+            key: "timeprovide",
         },
         {
             title: "Hạn sử dụng",
-            dataIndex: "expỉy",
-            key: "expỉy",
+            dataIndex: "expiry",
+            key: "expiry",
         },
         {
             title: "Trạng thái",
@@ -72,86 +139,9 @@ function ListProvideNum(props: PropsChild) {
             title: "",
             key: "detail",
             dataIndex: "detail",
-            render: () => <a onClick={() => props.handleOpenPageDetail()} >Chi Tiết</a>,
+            render: (_, providenum) => <a onClick={() => props.handleOpenPageDetail(providenum)} >Chi Tiết</a>,
         },
     ];
-
-    const data: DataTableProvideNum[] = [
-        {
-            key: '1',
-            stt: "2010001",
-            nameCsm: "Lê Huỳnh Ái Vân",
-            nameSev: "Khám tim mạch",
-            provideTime: "14:35 - 07/11/2021",
-            expỉy: "14:35 - 12/11/2021",
-            status: "Đang chờ",
-            supply: "Kiosk",
-        },
-        {
-            key: '2',
-            stt: "2010002",
-            nameCsm: "Lê Huỳnh Ái Vân",
-            nameSev: "Khám tim mạch",
-            provideTime: "14:35 - 07/11/2021",
-            expỉy: "14:35 - 12/11/2021",
-            status: "Đang chờ",
-            supply: "Kiosk",
-        },
-        {
-            key: '3',
-            stt: "2010003",
-            nameCsm: "Lê Huỳnh Ái Vân",
-            nameSev: "Khám tim mạch",
-            provideTime: "14:35 - 07/11/2021",
-            expỉy: "14:35 - 12/11/2021",
-            status: "Đã sử dụng",
-            supply: "Kiosk",
-        },
-        {
-            key: '4',
-            stt: "2010004",
-            nameCsm: "Lê Huỳnh Ái Vân",
-            nameSev: "Khám tim mạch",
-            provideTime: "14:35 - 07/11/2021",
-            expỉy: "14:35 - 12/11/2021",
-            status: "Đã sử dụng",
-            supply: "Kiosk",
-        },
-        {
-            key: '5',
-            stt: "2010005",
-            nameCsm: "Lê Huỳnh Ái Vân",
-            nameSev: "Khám tim mạch",
-            provideTime: "14:35 - 07/11/2021",
-            expỉy: "14:35 - 12/11/2021",
-            status: "Đang chờ",
-            supply: "Kiosk",
-        },
-        {
-            key: '6',
-            stt: "2010006",
-            nameCsm: "Lê Huỳnh Ái Vân",
-            nameSev: "Khám tim mạch",
-            provideTime: "14:35 - 07/11/2021",
-            expỉy: "14:35 - 12/11/2021",
-            status: "Bỏ qua",
-            supply: "Kiosk",
-        },
-        {
-            key: '7',
-            stt: "2010007",
-            nameCsm: "Lê Huỳnh Ái Vân",
-            nameSev: "Khám tim mạch",
-            provideTime: "14:35 - 07/11/2021",
-            expỉy: "14:35 - 12/11/2021",
-            status: "Đang chờ",
-            supply: "Kiosk",
-        },
-    ];
-
-    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-        console.log(date, dateString);
-    };
 
     return (
         <div className="main-provide-num">
@@ -169,11 +159,13 @@ function ListProvideNum(props: PropsChild) {
                                 suffixIcon={
                                     <AiFillCaretDown size={20} style={{ color: "#FF7506" }} />
                                 }
+                                onChange={(value: string) => setValueSevName(value)}
                                 options={[
                                     { value: "Tất cả", label: "Tất cả" },
                                     { value: "Khám sản - Phụ khoa", label: "Khám sản - Phụ khoa" },
                                     { value: "Khám răng hàm mặt", label: "Khám răng hàm mặt" },
                                     { value: "Khám tai mũi họng", label: "Khám tai mũi họng" },
+                                    { value: "Khám tim mạch", label: "Khám tim mạch" },
                                 ]}
                             />
                         </div>
@@ -186,6 +178,7 @@ function ListProvideNum(props: PropsChild) {
                                 suffixIcon={
                                     <AiFillCaretDown size={20} style={{ color: "#FF7506" }} />
                                 }
+                                onChange={(value: string) => setValueStatus(value)}
                                 options={[
                                     { value: "Tất cả", label: "Tất cả" },
                                     { value: "Đang chờ", label: "Đang chờ" },
@@ -203,6 +196,7 @@ function ListProvideNum(props: PropsChild) {
                                 suffixIcon={
                                     <AiFillCaretDown size={20} style={{ color: "#FF7506" }} />
                                 }
+                                onChange={(value: string) => setValueSupply(value)}
                                 options={[
                                     { value: "Tất cả", label: "Tất cả" },
                                     { value: "Kiosk", label: "Kiosk" },
@@ -213,16 +207,16 @@ function ListProvideNum(props: PropsChild) {
                         <div className="status-main-provide-num-child">
                             <p>Chọn thời gian</p>
                             <div className="status-date-main-provide-num-child">
-                                <DatePicker format="DD/MM/YYYY" onChange={onChange} style={{ marginRight: 7, height: 32 }} />
+                                <DatePicker format="DD/MM/YYYY" onChange={onChangeDateFrom} style={{ marginRight: 7, height: 32 }} />
                                 <BiSolidRightArrow size={10} />
-                                <DatePicker format="DD/MM/YYYY" onChange={onChange} style={{ marginLeft: 7, height: 32 }} />
+                                <DatePicker format="DD/MM/YYYY" onChange={onChangeDateTo} style={{ marginLeft: 7, height: 32 }} />
                             </div>
                         </div>
                     </div>
 
                     <div className="top-search-main-provide-num">
                         <p>Từ khóa</p>
-                        <Input placeholder="Nhập từ khóa" />
+                        <Input placeholder="Nhập từ khóa" onChange={(e) => setValueSearch(e.target.value)} />
                         <BiSearch className="icon-search" />
                     </div>
                 </div>
@@ -230,9 +224,10 @@ function ListProvideNum(props: PropsChild) {
                 <div className="content-main-provide-num-child">
                     <div className="table-content-main-provide-num">
                         <Table
+                            rowKey={(record) => record.id!}
                             className="table-provide-num"
                             columns={columns}
-                            dataSource={data}
+                            dataSource={filteredData}
                             pagination={{ pageSize: 7 }}
                         />
                     </div>

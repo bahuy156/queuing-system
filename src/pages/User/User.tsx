@@ -3,14 +3,13 @@ import Header from "../../components/Header/Header";
 import bahuyLogo from "../../images/bahuy.png"
 import { AiOutlineCamera } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/reducer";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
 import { useEffect } from "react";
-import { fetchAccount } from "../../redux/actions/actions";
+import { fetchAccount } from "../../redux/actions/accountActions";
+import { AppDispatch, RootState } from "../../redux/store";
+import NavTopUserInfo from "../../components/Header/NavTopUserInfo/NavTopUserInfo";
 
 function User() {
-    const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const accountInfo = useSelector((state: RootState) => state.account.datas);
 
     useEffect(() => {
@@ -19,7 +18,7 @@ function User() {
 
     return (
         <div className="wrapper-personal-info">
-            <Header headName="Thông tin cá nhân" />
+            <Header headName={<NavTopUserInfo />} />
 
             <div className="main-personal-info">
                 <div className="content-main-personal-info">

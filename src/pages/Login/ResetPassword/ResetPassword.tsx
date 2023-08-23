@@ -4,21 +4,54 @@ import LogoLoginRight2 from "../../../images/logo-login2.png";
 import { BsEyeSlash } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
 import { useState } from "react";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { resetPasswordByMail } from "../../../redux/actions/accountActions";
 
 interface PropsChild {
     handleForgetPass: any;
 }
 
 function ResetPassword(props: PropsChild) {
-    const [confirmRsPass, setConfirmRsPass] = useState<boolean>(false);
+    const dispatch: AppDispatch = useDispatch()
+    const dataAccount = useSelector((state: RootState) => state.account.datas)
+    console.log(dataAccount)
+
+    const [confirmRsPass, setConfirmRsPass] = useState<string>("");
     const [showPass, setShowPass] = useState<string>("password");
     const [showPass2, setShowPass2] = useState<string>("password");
     const [valueNewPass, setValueNewPass] = useState<string>("");
     const [valueNewPass2, setValueNewPass2] = useState<string>("");
+    const [valueEmail, setValueEmail] = useState<string>("");
 
-    const handleConfirmResetPass = () => {
-        setConfirmRsPass(true);
-    };
+    // handle next page forgetpass
+    const dataEmail = dataAccount.map((item) => item.email)
+
+    const handleContinue = () => {
+        if (valueEmail.length === 0) {
+            alert("Vui lòng nhập email để tiếp tục");
+        } else if (dataEmail.includes(valueEmail)) {
+            setConfirmRsPass(valueEmail)
+        } else {
+            alert("Email không hợp lệ!");
+        }
+    }
+
+    // handle reset pass
+    const handleResetPass = () => {
+        if (valueEmail && valueNewPass === valueNewPass2) {
+            dispatch(resetPasswordByMail({ email: valueEmail, newPassword: valueNewPass }))
+                .then(res => {
+                    alert("Thay đổi mật khẩu thành công!")
+                    props.handleForgetPass()
+                })
+                .catch(err => {
+                    alert(err.message || "Thay đổi mật khẩu thất bại!")
+                })
+        } else {
+            alert("Mật khẩu xác nhận không khớp với mật khẩu đã thay đổi")
+        }
+    }
 
     const togglePassword = (setFunction: (value: string) => void, currentState: string) => {
         setFunction(currentState === "password" ? "text" : "password");
@@ -37,7 +70,7 @@ function ResetPassword(props: PropsChild) {
                                     Vui lòng nhập email để đặt lại mật khẩu của bạn *
                                 </p>
                                 <div className="reset-password-child">
-                                    <input type="text" />
+                                    <input value={valueEmail} type="text" onChange={(e) => setValueEmail(e.target.value)} />
                                 </div>
                             </div>
                             <div className="btn-reset">
@@ -49,7 +82,7 @@ function ResetPassword(props: PropsChild) {
                                 </button>
                                 <button
                                     className="btn-reset-continue"
-                                    onClick={handleConfirmResetPass}
+                                    onClick={() => handleContinue()}
                                 >
                                     Tiếp tục
                                 </button>
@@ -126,7 +159,7 @@ function ResetPassword(props: PropsChild) {
                                     </div>
                                 </div>
                             </div>
-                            <button className="btn-confirm" onClick={props.handleForgetPass}>
+                            <button className="btn-confirm" onClick={handleResetPass}>
                                 Xác nhận
                             </button>
                         </div>

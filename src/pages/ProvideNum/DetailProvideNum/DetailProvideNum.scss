@@ -72,9 +72,22 @@
     align-items: center;
 }
 
-.icon-status-num-child-2 {
+.icon-status-waiting,
+.icon-status-used,
+.icon-status-skip {
     margin-bottom: 16px;
+}
+
+.icon-status-waiting {
     color: #4277FF;
+}
+
+.icon-status-used {
+    color: #7E7D88;
+}
+
+.icon-status-skip {
+    color: #E73F3F;
 }
 
 .bot-content-main-detail-provide-num {
@@ -97,7 +110,7 @@
 }
 
 .btn-back-provide-num {
-    margin-top: 55px;
+    margin-top: 52px;
     padding: 15px 10px;
     border: none;
     border-radius: 8px;

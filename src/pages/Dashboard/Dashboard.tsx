@@ -16,6 +16,8 @@ function Dashboard() {
         setTitle(value)
     };
 
+    const titleLowCase = title.toLowerCase()
+
     return (
         <div className="wrapper-dashboard">
             <HeaderDashboard />
@@ -99,27 +101,27 @@ function Dashboard() {
 
                     <div className="statistical-content-left-dash">
                         <div className="statistical-header-left">
-                            <h4 className="title-statistical">Bảng thống kê theo {title}</h4>
+                            <h4 className="title-statistical">Bảng thống kê theo {titleLowCase}</h4>
                             <div className="statistical-header-calendar">
                                 <p>Xem theo</p>
                                 <Select
                                     className="statistical-header-selected"
-                                    defaultValue="ngày"
+                                    defaultValue="Ngày"
                                     style={{ width: 100 }}
                                     onChange={handleChange}
                                     suffixIcon={
                                         <AiFillCaretDown size={20} style={{ color: "#FF7506" }} />
                                     }
                                     options={[
-                                        { value: 'ngày', label: 'ngày' },
-                                        { value: 'tuần', label: 'tuần' },
-                                        { value: 'tháng', label: 'tháng' },
+                                        { value: 'Ngày', label: 'Ngày' },
+                                        { value: 'Tuần', label: 'Tuần' },
+                                        { value: 'Tháng', label: 'Tháng' },
                                     ]}
                                 />
                             </div>
                         </div>
 
-                        <div className="statistical-desc">Tháng 11/2023</div>
+                        <div className="statistical-desc">Tháng 8/2023</div>
 
                         <div className="statistical-chart-left">
                             <LineChartComponent />

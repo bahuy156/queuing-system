@@ -1,21 +1,76 @@
 import "./UpdateAccount.scss"
 import { Input } from "antd";
 import { Select } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 import { BsEyeSlash } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
+import { AppDispatch } from "../../../../redux/store";
+import { useDispatch } from "react-redux";
+import { updateAccount } from "../../../../redux/actions/accountActions";
 
 interface PropsChild {
     handleClosePageUpdate: any
+    selectedPage: any
 }
 
 function UpdateAccount(props: PropsChild) {
+    const dispatch: AppDispatch = useDispatch()
+
     const [showPass, setShowPass] = useState<string>("password");
     const [showPass2, setShowPass2] = useState<string>("password");
     const [valueNewPass, setValueNewPass] = useState<string>("");
     const [valueNewPass2, setValueNewPass2] = useState<string>("");
+    const [valueName, setValueName] = useState<string>("");
+    const [valueSdt, setValueSdt] = useState<string>("");
+    const [valueEmail, setValueEmail] = useState<string>("");
+    const [valueRole, setValueRole] = useState<string>("");
+    const [valueLoginName, setValueLoginNAme] = useState<string>("");
+    const [valueStatus, setValueStatus] = useState<string>("");
 
+    const curName = props.selectedPage.username;
+    const curSdt = props.selectedPage.sdt;
+    const curEmail = props.selectedPage.email;
+    const curRole = props.selectedPage.role;
+    const curLoginname = props.selectedPage.loginname;
+    const curPass = props.selectedPage.password
+    const curPass2 = props.selectedPage.password
+    const curStatus = props.selectedPage.status;
+    const id = props.selectedPage.id
+
+    useEffect(() => {
+        setValueName(curName);
+        setValueSdt(curSdt);
+        setValueEmail(curEmail);
+        setValueRole(curRole);
+        setValueLoginNAme(curLoginname);
+        setValueNewPass(curPass);
+        setValueNewPass2(curPass2);
+        setValueStatus(curStatus);
+    }, [curName, curSdt, curEmail, curRole, curLoginname, curPass, curPass2, curStatus])
+
+    // handle update account
+    const handleUpdateAccount = async () => {
+        if (id) {
+            const accountUpdate = {
+                id: id,
+                username: valueName,
+                sdt: valueSdt,
+                email: valueEmail,
+                loginname: valueLoginName,
+                password: valueNewPass,
+                role: valueRole,
+                status: valueStatus,
+            }
+
+            await dispatch(updateAccount(accountUpdate))
+            props.handleClosePageUpdate()
+        } else {
+            console.log("Không tìm thấy id cần cập nhật")
+        }
+    }
+
+    // handle toggle pass    
     const togglePassword = (setFunction: (value: string) => void, currentState: string) => {
         setFunction(currentState === "password" ? "text" : "password");
     };
@@ -35,7 +90,9 @@ function UpdateAccount(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <Input
+                                value={valueName}
                                 placeholder="Nhập họ tên"
+                                onChange={(e) => setValueName(e.target.value)}
                             />
                         </div>
                         <div className="content-main-update-account-child">
@@ -44,7 +101,9 @@ function UpdateAccount(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <Input
+                                value={valueSdt}
                                 placeholder="Nhập số điện thoại"
+                                onChange={(e) => setValueSdt(e.target.value)}
                             />
                         </div>
                         <div className="content-main-update-account-child">
@@ -53,7 +112,9 @@ function UpdateAccount(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <Input
+                                value={valueEmail}
                                 placeholder="Nhập email"
+                                onChange={(e) => setValueEmail(e.target.value)}
                             />
                         </div>
                         <div className="content-main-update-account-child">
@@ -62,12 +123,14 @@ function UpdateAccount(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <Select
+                                value={valueRole}
                                 className="update-account-child-selected"
                                 placeholder="Chọn vai trò"
                                 suffixIcon={
                                     <AiFillCaretDown size={20} style={{ color: "#FF7506" }} />
                                 }
                                 style={{ width: 572, height: 32 }}
+                                onChange={(value) => setValueRole(value)}
                                 options={[
                                     { value: "Kế toán", label: "Kế toán" },
                                     { value: "Quản lý", label: "Quản lý" },
@@ -84,7 +147,9 @@ function UpdateAccount(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <Input
+                                value={valueLoginName}
                                 placeholder="Nhập tài khoản"
+                                onChange={(e) => setValueLoginNAme(e.target.value)}
                             />
                         </div>
                         <div className="content-main-update-account-child">
@@ -93,6 +158,7 @@ function UpdateAccount(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <Input
+                                value={valueNewPass}
                                 type={showPass}
                                 placeholder="Nhập mật khẩu"
                                 onChange={(e) => setValueNewPass(e.target.value)}
@@ -125,10 +191,10 @@ function UpdateAccount(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <Input
+                                value={valueNewPass2}
                                 type={showPass2}
                                 placeholder="Nhập mật khẩu"
                                 onChange={(e) => setValueNewPass2(e.target.value)}
-
                             />
                             {showPass2 === "password" ? (
                                 <BsEyeSlash
@@ -158,12 +224,14 @@ function UpdateAccount(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <Select
+                                value={valueStatus}
                                 className="update-account-child-selected"
                                 placeholder="Tình trạng"
                                 suffixIcon={
                                     <AiFillCaretDown size={20} style={{ color: "#FF7506" }} />
                                 }
                                 style={{ width: 572, height: 32 }}
+                                onChange={(value) => setValueStatus(value)}
                                 options={[
                                     { value: "Hoạt động", label: "Hoạt động" },
                                     { value: "Ngưng hoạt động", label: "Ngưng hoạt động" },
@@ -188,7 +256,7 @@ function UpdateAccount(props: PropsChild) {
                 </button>
                 <button
                     className="btn-update-account-update"
-                    onClick={() => props.handleClosePageUpdate()}
+                    onClick={handleUpdateAccount}
                 >
                     <p>Cập nhật</p>
                 </button>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import "./ListAccount.scss"
 import { Select } from "antd";
@@ -7,7 +8,11 @@ import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { AiFillCaretDown } from "react-icons/ai";
 import { GoDotFill } from "react-icons/go";
-import { DataTableListAccount } from "../../../../types";
+import { DataAccount } from "../../../../types";
+import { AppDispatch, RootState } from "../../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { fetchAccount, searchAccount } from "../../../../redux/actions/accountActions";
 
 interface PropsChild {
     handleOpentPageAdd: any
@@ -15,22 +20,50 @@ interface PropsChild {
 }
 
 function ListAccount(props: PropsChild) {
+    const dispatch: AppDispatch = useDispatch()
+    const dataAccount = useSelector((state: RootState) => state.account.datas)
+
+    const [valueRole, setValueRole] = useState<string>("Tất cả");
+    const [findData, setFindData] = useState<string>("");
+
+    // handle search by code
+    const handleSearch = () => {
+        if (findData) {
+            dispatch(searchAccount(findData));
+        } else {
+            dispatch(fetchAccount())
+        }
+    };
+
+    useEffect(() => {
+        handleSearch();
+    }, [findData]);
+
+    // handle filter data
+    let filterAccount = dataAccount.filter(
+        (item) => (valueRole === "Tất cả" || item.role === valueRole)
+    );
+
+    useEffect(() => {
+        dispatch(fetchAccount())
+    }, [dispatch])
+
     // data table
-    const columns: ColumnsType<DataTableListAccount> = [
+    const columns: ColumnsType<DataAccount> = [
         {
             title: "Tên đăng nhập",
-            dataIndex: "nameLogin",
-            key: "nameLogin",
+            dataIndex: "loginname",
+            key: "loginname",
         },
         {
             title: "Họ Tên",
-            dataIndex: "name",
-            key: "name",
+            dataIndex: "username",
+            key: "username",
         },
         {
             title: "Số điện thoại",
-            dataIndex: "phone",
-            key: "phone",
+            dataIndex: "sdt",
+            key: "sdt",
         },
         {
             title: "Email",
@@ -61,46 +94,7 @@ function ListAccount(props: PropsChild) {
             title: "",
             key: "update",
             dataIndex: "update",
-            render: () => <a onClick={() => props.handleOpentPageUpdate()} >Cập nhật</a>,
-        },
-    ];
-
-    const data: DataTableListAccount[] = [
-        {
-            key: '1',
-            nameLogin: "bahuy156",
-            name: "Sa Mai Bá Huy",
-            phone: "0988368690",
-            email: "bahuy156@gmail.com",
-            role: "Admin",
-            status: "Hoạt động"
-        },
-        {
-            key: '2',
-            nameLogin: "ngockim2711",
-            name: "Nguyễn Thị Kim Ngọc",
-            phone: "0988368690",
-            email: "kunsgd@gmail.com",
-            role: "Kế toán",
-            status: "Hoạt động"
-        },
-        {
-            key: '3',
-            nameLogin: "tuyetnguyen12",
-            name: "Nguyễn Thị Ngọc Tuyết",
-            phone: "0988368690",
-            email: "tuyetngoc@gmail.com",
-            role: "Quản lý",
-            status: "Hoạt động"
-        },
-        {
-            key: '4',
-            nameLogin: "thuyngan23",
-            name: "Lê Thị Thùy Ngân",
-            phone: "0988368690",
-            email: "nganthuy@gmail.com",
-            role: "Kế toán",
-            status: "Ngưng hoạt động"
+            render: (_, account: DataAccount) => <a onClick={() => props.handleOpentPageUpdate(account)} >Cập nhật</a>,
         },
     ];
 
@@ -120,6 +114,7 @@ function ListAccount(props: PropsChild) {
                                 suffixIcon={
                                     <AiFillCaretDown size={20} style={{ color: "#FF7506" }} />
                                 }
+                                onChange={(value) => setValueRole(value)}
                                 options={[
                                     { value: "Tất cả", label: "Tất cả" },
                                     { value: "Kế toán", label: "Kế toán" },
@@ -134,6 +129,7 @@ function ListAccount(props: PropsChild) {
                         <p>Từ khóa</p>
                         <Input
                             placeholder="Nhập từ khóa"
+                            onChange={(e) => setFindData(e.target.value)}
                         />
                         <BiSearch className="icon-search" />
                     </div>
@@ -142,9 +138,10 @@ function ListAccount(props: PropsChild) {
                 <div className="content-main-account-child">
                     <div className="table-content-main-account">
                         <Table
+                            rowKey={(record) => record.id!}
                             className="table-account"
                             columns={columns}
-                            dataSource={data}
+                            dataSource={filterAccount}
                             pagination={{ pageSize: 7 }}
                         />
                     </div>

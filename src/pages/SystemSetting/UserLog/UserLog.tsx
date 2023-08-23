@@ -9,6 +9,7 @@ import { ColumnsType } from "antd/es/table";
 import { Table } from "antd";
 import type { DatePickerProps } from 'antd';
 import { DatePicker } from 'antd'
+import NavTopUserLog from "../../../components/Header/NavTopUserLog/NavTopUserLog";
 
 function UserLog() {
     // data table
@@ -100,7 +101,7 @@ function UserLog() {
 
     return (
         <div>
-            <Header headName='Nhật ký người dùng' />
+            <Header headName={<NavTopUserLog />} />
 
             <div className="main-user-log">
                 <div className="top-main-user-log-child">

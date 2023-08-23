@@ -6,10 +6,8 @@ import { IoClose } from "react-icons/io5"
 import { DataTable } from "../../../types"
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { AnyAction } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../redux/reducer";
-import { updateDevice } from "../../../redux/actions/actions"
+import { AppDispatch } from "../../../redux/store";
+import { updateDevice } from "../../../redux/actions/deviceActions";
 
 interface PropsChild {
     handleClosePageUpdate: any
@@ -17,7 +15,7 @@ interface PropsChild {
 }
 
 function UpdateDevice(props: PropsChild) {
-    const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     const [codeValue, setCodeValue] = useState<string | undefined>("");
     const [ipValue, setIpValue] = useState<string | undefined>("");
@@ -26,12 +24,10 @@ function UpdateDevice(props: PropsChild) {
     const deviceCodeValue = props.selectedDeviceUpdate?.code
     const ipAddressValue = props.selectedDeviceUpdate?.ip
     const deviceSelectValue = props.selectedDeviceUpdate?.name
+    const id = props.selectedDeviceUpdate?.id
 
     const deviceServiceValue = props.selectedDeviceUpdate?.services
     const splitServiceValue = deviceServiceValue?.split(", ")
-
-    const id = props.selectedDeviceUpdate?.key
-    console.log(id);
 
     useEffect(() => {
         setCodeValue(deviceCodeValue)
@@ -39,7 +35,7 @@ function UpdateDevice(props: PropsChild) {
         setSeclect(deviceSelectValue)
     }, [deviceCodeValue, ipAddressValue, deviceSelectValue, props.selectedDeviceUpdate])
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         if (id) {
             const updatedDevice: DataTable = {
                 key: id,
@@ -48,10 +44,10 @@ function UpdateDevice(props: PropsChild) {
                 name: select,
                 status: "Hoạt động",
                 connect: "Kết nối",
-                services: "",
+                services: String(deviceServiceValue),
             };
 
-            dispatch(updateDevice(id, updatedDevice));
+            await dispatch(updateDevice(updatedDevice));
             props.handleClosePageUpdate();
         } else {
             console.log("Không tìm thấy id cần cập nhật")

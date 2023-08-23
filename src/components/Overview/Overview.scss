@@ -4,11 +4,39 @@
     padding-left: 81px;
 }
 
-.icon-notification-overview {
-    padding: 6px 7px 2px 8px;
+.wrapper-icon-notification-overview {
+    position: relative;
+}
+
+.main-notification-overview,
+.main-notification-overview-active {
+    position: absolute;
+    left: -110px;
+    top: 55px;
+    z-index: 999;
+}
+
+.main-notification-overview {
+    display: none;
+}
+
+.main-notification-overview-active {
+    display: block;
+}
+
+.icon-notification-overview,
+.icon-notification-overview-active {
+    padding: 6px 7px 2px 7px;
     border-radius: 50%;
-    background-color: #FFF2E7;
     cursor: pointer;
+}
+
+.icon-notification-overview {
+    background-color: #FFF2E7;
+}
+
+.icon-notification-overview-active {
+    background-color: #FF7506;
 }
 
 .icon-notification {

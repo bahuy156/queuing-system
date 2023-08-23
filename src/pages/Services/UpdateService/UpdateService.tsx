@@ -1,15 +1,52 @@
 import "./UpdateService.scss"
 import { Input } from "antd";
 import { Checkbox } from 'antd';
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+// import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { useEffect, useState } from "react";
+import { AppDispatch } from "../../../redux/store";
+import { useDispatch } from "react-redux";
+import { updateServives } from "../../../redux/actions/serviceActions";
+import { DataTableSev } from "../../../types";
+
 interface PropsChild {
     handleClosePageUpdate: any
+    setSelectedServices: any
 }
 
 function UpdateService(props: PropsChild) {
-    const onChange = (e: CheckboxChangeEvent) => {
-        console.log(`checked = ${e.target.checked}`);
-    };
+    const dispatch: AppDispatch = useDispatch()
+
+    const [codeValue, setCodeValue] = useState<string | undefined>("")
+    const [nameValue, setNameValue] = useState<string | undefined>("")
+    const [descValue, setDescValue] = useState<string | undefined>("")
+
+    const sevCodeValue = props.setSelectedServices?.code;
+    const sevNameValue = props.setSelectedServices?.servicename;
+    const sevDescValue = props.setSelectedServices?.desc;
+    const idUpdate = props.setSelectedServices?.id
+
+    useEffect(() => {
+        setCodeValue(sevCodeValue)
+        setNameValue(sevNameValue)
+        setDescValue(sevDescValue)
+    }, [sevCodeValue, sevNameValue, sevDescValue])
+
+    const handleUpdate = async () => {
+        if (idUpdate) {
+            const updateServices: DataTableSev = {
+                key: idUpdate,
+                code: codeValue,
+                servicename: nameValue,
+                desc: descValue,
+                status: "Hoạt động",
+            }
+
+            await dispatch(updateServives(updateServices))
+            props.handleClosePageUpdate()
+        } else {
+            console.log("Update không thành công")
+        }
+    }
 
     return (
         <div className="wrapper-update-service">
@@ -26,7 +63,9 @@ function UpdateService(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <Input
+                                value={codeValue}
                                 placeholder="Nhập mã thiết bị"
+                                onChange={(e) => setCodeValue(e.target.value)}
                             />
                         </div>
                         <div className="content-main-update-service-child">
@@ -35,7 +74,9 @@ function UpdateService(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <Input
+                                value={nameValue}
                                 placeholder="Nhập tên thiết bị"
+                                onChange={(e) => setNameValue(e.target.value)}
                             />
                         </div>
                     </div>
@@ -47,7 +88,12 @@ function UpdateService(props: PropsChild) {
                                 <span>*</span>
                             </div>
                             <div className="input-content-main-update-service-child">
-                                <Input className="input-desc" placeholder="Mô tả dịch vụ" />
+                                <Input
+                                    value={descValue}
+                                    className="input-desc"
+                                    placeholder="Mô tả dịch vụ"
+                                    onChange={(e) => setDescValue(e.target.value)}
+                                />
                             </div>
                         </div>
                     </div>
@@ -58,24 +104,24 @@ function UpdateService(props: PropsChild) {
 
                     <div className="content-bot-update-service-chill">
                         <div className="content-bot-update-service-chill1">
-                            <Checkbox style={{ marginRight: 7 }} onChange={onChange} />
+                            <Checkbox style={{ marginRight: 7 }} />
                             <p>Tăng tự động từ:</p>
                             <button>0001</button>
                             <span>đến</span>
                             <button>9999</button>
                         </div>
                         <div className="content-bot-update-service-chill2">
-                            <Checkbox style={{ marginRight: 7 }} onChange={onChange} />
+                            <Checkbox style={{ marginRight: 7 }} />
                             <p>Prefix:</p>
                             <button>0001</button>
                         </div>
                         <div className="content-bot-update-service-chill2">
-                            <Checkbox style={{ marginRight: 7 }} onChange={onChange} />
+                            <Checkbox style={{ marginRight: 7 }} />
                             <p>Surfix:</p>
                             <button>0001</button>
                         </div>
                         <div className="content-bot-update-service-chill2">
-                            <Checkbox style={{ marginRight: 7 }} onChange={onChange} />
+                            <Checkbox style={{ marginRight: 7 }} />
                             <p>Reset mỗi ngày</p>
                         </div>
                     </div>
@@ -96,7 +142,7 @@ function UpdateService(props: PropsChild) {
                 </button>
                 <button
                     className="btn-update2"
-                    onClick={() => props.handleClosePageUpdate()}
+                    onClick={handleUpdate}
                 >
                     <p>Cập nhật</p>
                 </button>

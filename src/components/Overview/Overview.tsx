@@ -10,8 +10,13 @@ import { TbMessageCircleQuestion } from "react-icons/tb"
 import { PiStack } from "react-icons/pi"
 import { Link } from "react-router-dom"
 import { publicRoutes } from "../../routes"
+import Notification from "../Notification/Notification";
+import { useState } from "react"
 
 function Overview() {
+    const [activeNoti, setActiveNoti] = useState<boolean>(false)
+
+    // handle logic calendar
     const onPanelChange = (value: Dayjs, mode: CalendarMode) => {
         console.log(value.format('YYYY-MM-DD'), mode);
     };
@@ -27,8 +32,16 @@ function Overview() {
     return (
         <div className="wrapper-overview">
             <div className="header-overview">
-                <div className="icon-notification-overview">
-                    <BiSolidBell className="icon-notification" />
+                <div className="wrapper-icon-notification-overview">
+                    <div
+                        className={!activeNoti ? "icon-notification-overview" : "icon-notification-overview-active"}
+                        onClick={() => setActiveNoti(!activeNoti)}
+                    >
+                        <BiSolidBell className={!activeNoti ? "icon-notification2" : "icon-notification2-active"} />
+                    </div>
+                    <div className={!activeNoti ? "main-notification-overview" : "main-notification-overview-active"}>
+                        <Notification />
+                    </div>
                 </div>
                 <Link to={publicRoutes[6].path} className="info-notification-overview">
                     <img src={bahuyLogo} alt="" />

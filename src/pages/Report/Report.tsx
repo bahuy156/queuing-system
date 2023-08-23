@@ -8,6 +8,7 @@ import { Table } from "antd";
 import type { DatePickerProps } from 'antd';
 import { DatePicker } from 'antd';
 import { DataTableReport } from "../../types"
+import NavTopReportList from "../../components/Header/NavTopReport/NavTopReportList";
 
 function Report() {
     // data table
@@ -176,7 +177,7 @@ function Report() {
 
     return (
         <div>
-            <Header headName='Báo cáo' />
+            <Header headName={<NavTopReportList />} />
             <div className="main-report">
                 <div className="main-report-child">
                     <div className="top-main-report-child">

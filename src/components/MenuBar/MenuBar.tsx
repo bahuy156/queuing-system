@@ -10,20 +10,12 @@ import { HiOutlineDotsVertical } from "react-icons/hi"
 import { FiLogOut } from "react-icons/fi"
 import { NavLink, useNavigate } from "react-router-dom"
 import { publicRoutes } from "../../routes";
-import { useDispatch } from "react-redux"
-import { AnyAction } from "redux"
-import { ThunkDispatch } from "redux-thunk"
-import { RootState } from "../../redux/reducer"
-import { logoutAccount } from "../../redux/actions/actions"
 import { useState } from "react"
 
 function MenuBar() {
-    const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
-
     const navaigate = useNavigate()
 
     const handleLogout = () => {
-        dispatch(logoutAccount())
         navaigate("/")
     }
 
