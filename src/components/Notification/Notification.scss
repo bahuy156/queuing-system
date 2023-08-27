@@ -18,16 +18,20 @@
 
 .content-notification {
     height: 370px;
-    padding: 0px 15px 0px 24px;
     overflow-y: scroll;
     border-radius: 0px 0px 10px 10px;
     background-color: #fff;
 }
 
 .content-notification-child {
-    width: 315px;
-    padding: 10px 0px 10px 0px;
+    width: 355px;
+    padding: 10px 24px 10px 15px;
     border-bottom: 1px solid #D4D4D7;
+    transition: 0.1s linear;
+
+    &:hover {
+        background-color: #FFF2E7;
+    }
 }
 
 .content-notification-child:last-child {
@@ -49,4 +53,26 @@
     font-weight: 400;
     line-height: 24px;
     color: #535261;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 20px;
+    background: #fff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: #FFC89B;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #FF9138;
 }

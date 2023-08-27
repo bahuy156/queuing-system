@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { updateDevice } from "../../../redux/actions/deviceActions";
+import { addDiary } from "../../../redux/actions/diaryActoins";
 
 interface PropsChild {
     handleClosePageUpdate: any
@@ -29,11 +30,36 @@ function UpdateDevice(props: PropsChild) {
     const deviceServiceValue = props.selectedDeviceUpdate?.services
     const splitServiceValue = deviceServiceValue?.split(", ")
 
+    const time = new Date()
+    const day = time.getDate()
+    const day2 = Number(day) < 10 ? `0${day}` : day
+    const month = time.getMonth() + 1
+    const month2 = Number(month) < 10 ? `0${month}` : month
+    const year = time.getFullYear()
+    const hours = time.getHours()
+    const hours2 = Number(hours) < 10 ? `0${hours}` : hours
+    const minute = time.getMinutes()
+    const minute2 = Number(minute) < 10 ? `0${minute}` : minute
+    const nowDay = `${hours2}:${minute2} - ${day2}/${month2}/${year}`
+
     useEffect(() => {
         setCodeValue(deviceCodeValue)
         setIpValue(ipAddressValue)
         setSeclect(deviceSelectValue)
     }, [deviceCodeValue, ipAddressValue, deviceSelectValue, props.selectedDeviceUpdate])
+
+    // handle get current account
+    const getAccountStorage = () => {
+        const accountStorage = localStorage.getItem("currentAccount")
+
+        if (accountStorage) {
+            return JSON.parse(accountStorage)
+        } else {
+            return null
+        }
+    }
+
+    const currAccount = getAccountStorage();
 
     const handleUpdate = async () => {
         if (id) {
@@ -47,8 +73,17 @@ function UpdateDevice(props: PropsChild) {
                 services: String(deviceServiceValue),
             };
 
+            const operation = `cập nhật thiết bị có mã ${codeValue}`
+            const newDiary = {
+                loginname: currAccount.username,
+                time: nowDay,
+                ip: "192.168.1.1",
+                operation: `Thực hiện ${operation}`,
+            }
+
             await dispatch(updateDevice(updatedDevice));
             props.handleClosePageUpdate();
+            dispatch(addDiary(newDiary));
         } else {
             console.log("Không tìm thấy id cần cập nhật")
         }

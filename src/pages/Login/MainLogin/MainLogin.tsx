@@ -42,25 +42,24 @@ function MainLogin(props: PropsChild) {
     }, []);
 
     const handleCheckLogin = () => {
-        accountInfo.forEach((account) => {
-            if (
-                valueNameLogin === account.loginname &&
-                valuePassword === account.password
-            ) {
-                setChecklogin(true);
-                navaigate("/home");
-            } else {
-                setChecklogin(false);
-            }
+        const matchedAccount = accountInfo.find(account =>
+            valueNameLogin === account.loginname &&
+            valuePassword === account.password
+        );
+
+        if (matchedAccount) {
+            setChecklogin(true);
+            localStorage.setItem('currentAccount', JSON.stringify(matchedAccount));
+            navaigate("/home");
+        } else {
+            setChecklogin(false);
 
             if (valueNameLogin === "" && valuePassword === "") {
-                setCheckloginValue(true)
-            } else if (valueNameLogin !== account.loginname ||
-                valuePassword !== account.password
-            ) {
-                setCheckloginValue(false)
+                setCheckloginValue(true);
+            } else {
+                setCheckloginValue(false);
             }
-        });
+        }
     };
 
     return (

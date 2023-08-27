@@ -1,10 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./ListRole.scss"
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Input } from "antd";
 import { BiSearch } from "react-icons/bi";
-import { DataTableListRole } from "../../../../types";
+import { DataTableRole } from "../../../../types";
 import { ColumnsType } from "antd/es/table";
 import { Table } from "antd";
+import { AppDispatch, RootState } from "../../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react"
+import { fetchRole, searchRole } from "../../../../redux/actions/roleActions";
 
 interface PrposChild {
     handleOpentPageAdd: any
@@ -12,17 +17,40 @@ interface PrposChild {
 }
 
 function ListRole(props: PrposChild) {
+    const dispatch: AppDispatch = useDispatch()
+    const dataRole = useSelector((state: RootState) => state.role.datas)
+
+    const [findData, setFindData] = useState<string>("");
+
+    // handle search by code
+    const handleSearch = () => {
+        if (findData) {
+            dispatch(searchRole(findData));
+        } else {
+            dispatch(fetchRole())
+        }
+    };
+
+    useEffect(() => {
+        handleSearch();
+    }, [findData]);
+
+    // fetch data
+    useEffect(() => {
+        dispatch(fetchRole())
+    }, [dispatch])
+
     // data table
-    const columns: ColumnsType<DataTableListRole> = [
+    const columns: ColumnsType<DataTableRole> = [
         {
             title: "Tên vai trò",
-            dataIndex: "nameRole",
-            key: "nameRole",
+            dataIndex: "name",
+            key: "name",
         },
         {
             title: "Số người dùng",
-            dataIndex: "userNum",
-            key: "userNum",
+            dataIndex: "user",
+            key: "user",
         },
         {
             title: "Mô tả",
@@ -33,46 +61,7 @@ function ListRole(props: PrposChild) {
             title: "",
             key: "update",
             dataIndex: "update",
-            render: () => <a onClick={() => props.handleOpentPageUpdate()} >Cập nhật</a>,
-        },
-    ];
-
-    const data: DataTableListRole[] = [
-        {
-            key: '1',
-            nameRole: "Kế toán",
-            userNum: "6",
-            desc: "Thực hiện nhiệm vụ về thống kê số liệu và tổng hợp số liệu",
-        },
-        {
-            key: '2',
-            nameRole: "Kế toán",
-            userNum: "6",
-            desc: "Thực hiện nhiệm vụ về thống kê số liệu và tổng hợp số liệu",
-        },
-        {
-            key: '3',
-            nameRole: "Kế toán",
-            userNum: "6",
-            desc: "Thực hiện nhiệm vụ về thống kê số liệu và tổng hợp số liệu",
-        },
-        {
-            key: '4',
-            nameRole: "Kế toán",
-            userNum: "6",
-            desc: "Thực hiện nhiệm vụ về thống kê số liệu và tổng hợp số liệu",
-        },
-        {
-            key: '5',
-            nameRole: "Kế toán",
-            userNum: "6",
-            desc: "Thực hiện nhiệm vụ về thống kê số liệu và tổng hợp số liệu",
-        },
-        {
-            key: '6',
-            nameRole: "Kế toán",
-            userNum: "6",
-            desc: "Thực hiện nhiệm vụ về thống kê số liệu và tổng hợp số liệu",
+            render: (_, role: DataTableRole) => <a onClick={() => props.handleOpentPageUpdate(role)} >Cập nhật</a>,
         },
     ];
 
@@ -83,16 +72,17 @@ function ListRole(props: PrposChild) {
                     <h2 className="title-main-list-role-child">Danh sách vai trò</h2>
                     <div className="top-search-main-list-role">
                         <p>Từ khóa</p>
-                        <Input placeholder="Nhập từ khóa" />
+                        <Input placeholder="Nhập từ khóa" onChange={(e) => setFindData(e.target.value)} />
                         <BiSearch className="icon-search" />
                     </div>
                 </div>
 
                 <div className="table-content-main-list-role">
                     <Table
+                        rowKey={(record) => record.id!}
                         className="table-list-role"
                         columns={columns}
-                        dataSource={data}
+                        dataSource={dataRole}
                         pagination={{ pageSize: 7 }}
                     />
                 </div>
@@ -121,4 +111,4 @@ function ListRole(props: PrposChild) {
     );
 }
 
-export default ListRole; 
+export default ListRole;

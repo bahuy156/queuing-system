@@ -1,10 +1,10 @@
 import "./Header.scss"
 import { BiSolidBell } from "react-icons/bi"
-import bahuyLogo from "../../images/bahuy.png"
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import { publicRoutes } from "../../routes"
 import Notification from "../Notification/Notification"
+import defaultLogo from "../../images/newuser.png"
 
 interface PropsParent {
     headName: any
@@ -12,6 +12,18 @@ interface PropsParent {
 
 function Header(props: PropsParent) {
     const [activeNoti, setActiveNoti] = useState<boolean>(false)
+
+    // handle get current account
+    const getAccountStorage = () => {
+        const accountStorage = localStorage.getItem("currentAccount")
+
+        if (accountStorage) {
+            return JSON.parse(accountStorage)
+        } else {
+            return null
+        }
+    }
+    const currAccount = getAccountStorage();
 
     return (
         <div className="wrapper-header-default">
@@ -30,10 +42,10 @@ function Header(props: PropsParent) {
                     </div>
                 </div>
                 <Link to={publicRoutes[6].path} className="info-notification-default">
-                    <img src={bahuyLogo} alt="" />
+                    <img src={currAccount.image === "" ? defaultLogo : currAccount.image} alt="" />
                     <div className="info-notification-default-child">
                         <span>Xin chào</span>
-                        <p>Sa Mai Bá Huy</p>
+                        <p>{currAccount.username}</p>
                     </div>
                 </Link>
             </div>

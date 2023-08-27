@@ -8,6 +8,7 @@ import { AiOutlineEye } from "react-icons/ai";
 import { AppDispatch } from "../../../../redux/store";
 import { useDispatch } from "react-redux";
 import { updateAccount } from "../../../../redux/actions/accountActions";
+import { addDiary } from "../../../../redux/actions/diaryActoins";
 
 interface PropsChild {
     handleClosePageUpdate: any
@@ -38,6 +39,18 @@ function UpdateAccount(props: PropsChild) {
     const curStatus = props.selectedPage.status;
     const id = props.selectedPage.id
 
+    const time = new Date()
+    const day = time.getDate()
+    const day2 = Number(day) < 10 ? `0${day}` : day
+    const month = time.getMonth() + 1
+    const month2 = Number(month) < 10 ? `0${month}` : month
+    const year = time.getFullYear()
+    const hours = time.getHours()
+    const hours2 = Number(hours) < 10 ? `0${hours}` : hours
+    const minute = time.getMinutes()
+    const minute2 = Number(minute) < 10 ? `0${minute}` : minute
+    const nowDay = `${hours2}:${minute2} - ${day2}/${month2}/${year}`
+
     useEffect(() => {
         setValueName(curName);
         setValueSdt(curSdt);
@@ -48,6 +61,18 @@ function UpdateAccount(props: PropsChild) {
         setValueNewPass2(curPass2);
         setValueStatus(curStatus);
     }, [curName, curSdt, curEmail, curRole, curLoginname, curPass, curPass2, curStatus])
+
+    // handle get current account
+    const getAccountStorage = () => {
+        const accountStorage = localStorage.getItem("currentAccount")
+
+        if (accountStorage) {
+            return JSON.parse(accountStorage)
+        } else {
+            return null
+        }
+    }
+    const currAccount = getAccountStorage();
 
     // handle update account
     const handleUpdateAccount = async () => {
@@ -63,8 +88,17 @@ function UpdateAccount(props: PropsChild) {
                 status: valueStatus,
             }
 
-            await dispatch(updateAccount(accountUpdate))
-            props.handleClosePageUpdate()
+            const operation = `cập nhật tài khoản có email ${valueEmail}`
+            const newDiary = {
+                loginname: currAccount.loginname,
+                time: nowDay,
+                ip: "192.168.1.1",
+                operation: `Thực hiện ${operation}`,
+            }
+
+            await dispatch(updateAccount(accountUpdate));
+            props.handleClosePageUpdate();
+            dispatch(addDiary(newDiary));
         } else {
             console.log("Không tìm thấy id cần cập nhật")
         }

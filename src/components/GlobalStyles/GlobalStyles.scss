@@ -22,6 +22,17 @@ body {
     border-color: #FF9138 !important;
 }
 
+// checkbox
+:where(.css-dev-only-do-not-override-txh9fw).ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover .ant-checkbox-inner,
+:where(.css-dev-only-do-not-override-txh9fw).ant-checkbox:not(.ant-checkbox-disabled):hover .ant-checkbox-inner {
+    border-color: #FF9138 !important;
+}
+
+:where(.css-dev-only-do-not-override-txh9fw).ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #FF9138 !important;
+    border-color: #FF9138 !important;
+}
+
 // select
 :where(.css-dev-only-do-not-override-txh9fw).ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer):hover .ant-select-selector {
     border-color: #FF9138 !important;

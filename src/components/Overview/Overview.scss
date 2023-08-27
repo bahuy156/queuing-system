@@ -1,7 +1,7 @@
 .header-overview {
     display: flex;
     align-items: center;
-    padding-left: 81px;
+    padding-left: 50px;
 }
 
 .wrapper-icon-notification-overview {
@@ -11,7 +11,7 @@
 .main-notification-overview,
 .main-notification-overview-active {
     position: absolute;
-    left: -110px;
+    left: -65px;
     top: 55px;
     z-index: 999;
 }
@@ -54,6 +54,7 @@
     img {
         width: 40px;
         height: 40px;
+        border-radius: 50%;
     }
 }
 
@@ -230,5 +231,6 @@
 }
 
 .calendar-main-overview {
+    border-radius: 12px;
     box-shadow: 2px 2px 15px 0px rgba(70, 64, 67, 0.10);
 }

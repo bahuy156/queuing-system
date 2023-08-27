@@ -77,6 +77,8 @@ function ListProvideNum(props: PropsChild) {
     const handleSearchByCode = () => {
         if (valueSearch) {
             dispatch(searchProvideNumber(valueSearch));
+        } else {
+            dispatch(fetchProvideNum())
         }
     }
 

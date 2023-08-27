@@ -2,44 +2,15 @@
 import { useEffect, useState } from "react";
 import { Chart, LineElement } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
+import { ChartData } from "../../types";
 
 Chart.register(LineElement);
 
-interface DataMonth {
-    day: string;
-    amount: string;
+interface PropsData {
+    dataChart: any
 }
 
-interface DataSets {
-    label: string;
-    data: string[];
-    tension: number;
-    borderColor: string;
-    pointBorderColor: string;
-    backgroundColor: CanvasGradient;
-    fill: boolean;
-    spanGaps: boolean;
-}
-
-interface ChartData {
-    labels: string[];
-    datasets: DataSets[];
-}
-
-const dataList1: DataMonth[] = [
-    { day: "01", amount: "186.0" },
-    { day: "02", amount: "150.0" },
-    { day: "03", amount: "248.0" },
-    { day: "04", amount: "210.0" },
-    { day: "05", amount: "230.0" },
-    { day: "06", amount: "170.0" },
-    { day: "07", amount: "180.0" },
-    { day: "08", amount: "215.0" },
-    { day: "09", amount: "220.0" },
-    { day: "10", amount: "210.0" },
-];
-
-function LineChartComponent() {
+function LineChartComponent(props: PropsData) {
     const [chartData, setChartData] = useState<ChartData>({
         labels: [],
         datasets: [
@@ -58,11 +29,11 @@ function LineChartComponent() {
 
     useEffect(() => {
         setChartData({
-            labels: dataList1.map((month) => month.day),
+            labels: props.dataChart.map((list: any) => list.data),
             datasets: [
                 {
                     label: "",
-                    data: dataList1.map((month) => month.amount),
+                    data: props.dataChart.map((list: any) => list.amount),
                     tension: 0.5,
                     borderColor: "#5185F7",
                     pointBorderColor: "transparent",
@@ -72,7 +43,7 @@ function LineChartComponent() {
                 },
             ],
         });
-    }, []);
+    }, [props.dataChart]);
 
     const createLinearGradient = () => {
         const ctx = document.createElement("canvas").getContext("2d");
@@ -89,7 +60,7 @@ function LineChartComponent() {
         scales: {
             y: {
                 ticks: {
-                    stepSize: 40,
+                    stepSize: 3,
                 },
             },
             x: {

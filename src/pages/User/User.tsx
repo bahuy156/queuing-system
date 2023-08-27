@@ -1,17 +1,29 @@
 import "./User.scss"
 import Header from "../../components/Header/Header";
-import bahuyLogo from "../../images/bahuy.png"
 import { AiOutlineCamera } from "react-icons/ai"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchAccount } from "../../redux/actions/accountActions";
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch } from "../../redux/store";
 import NavTopUserInfo from "../../components/Header/NavTopUserInfo/NavTopUserInfo";
+import defaultLogo from "../../images/newuser.png"
 
 function User() {
     const dispatch: AppDispatch = useDispatch();
-    const accountInfo = useSelector((state: RootState) => state.account.datas);
 
+    // handle get current account
+    const getAccountStorage = () => {
+        const accountStorage = localStorage.getItem("currentAccount")
+
+        if (accountStorage) {
+            return JSON.parse(accountStorage)
+        } else {
+            return null
+        }
+    }
+    const currAccount = getAccountStorage();
+
+    // fetch data
     useEffect(() => {
         dispatch(fetchAccount());
     }, [dispatch]);
@@ -24,41 +36,41 @@ function User() {
                 <div className="content-main-personal-info">
                     <div className="main-info-left-park">
                         <div className="main-info-left-park-child">
-                            <img className="logo-info" src={bahuyLogo} alt="#" />
+                            <img className="logo-info" src={currAccount.image === "" ? defaultLogo : currAccount.image} alt="#" />
                             <div className="icon-camera-info">
                                 <AiOutlineCamera size={30} style={{ color: "#fff" }} />
                             </div>
                         </div>
-                        <h3 className="name-info">Sa Mai Bá Huy</h3>
+                        <h3 className="name-info">{currAccount.username}</h3>
                     </div>
 
                     <div className="main-info-right-park">
                         <div className="main-info-right-park-child">
                             <div className="content-main-info-right-park">
                                 <p>Tên người dùng</p>
-                                <input value={accountInfo[0]?.username} type="text" />
+                                <input value={currAccount.username} type="text" />
                             </div>
                             <div className="content-main-info-right-park">
                                 <p>Số điện thoại</p>
-                                <input value={accountInfo[0]?.sdt} type="text" />
+                                <input value={currAccount.sdt} type="text" />
                             </div>
                             <div className="content-main-info-right-park">
                                 <p>Email:</p>
-                                <input value={accountInfo[0]?.email} type="text" />
+                                <input value={currAccount.email} type="text" />
                             </div>
                         </div>
                         <div className="main-info-right-park-child">
                             <div className="content-main-info-right-park">
                                 <p>Tên đăng nhập</p>
-                                <input value={accountInfo[0]?.loginname} type="text" />
+                                <input value={currAccount.loginname} type="text" />
                             </div>
                             <div className="content-main-info-right-park">
                                 <p>Mật khẩu</p>
-                                <input value={accountInfo[0]?.password} type="text" />
+                                <input value={currAccount.password} type="text" />
                             </div>
                             <div className="content-main-info-right-park">
                                 <p>Vai trò:</p>
-                                <input value={accountInfo[0]?.role} type="text" />
+                                <input value={currAccount.role} type="text" />
                             </div>
                         </div>
                     </div>

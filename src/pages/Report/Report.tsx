@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import "./Report.scss"
 import Header from "../../components/Header/Header";
@@ -7,12 +8,62 @@ import { ColumnsType } from "antd/es/table";
 import { Table } from "antd";
 import type { DatePickerProps } from 'antd';
 import { DatePicker } from 'antd';
-import { DataTableReport } from "../../types"
+import { DataTableProvideNum } from "../../types"
 import NavTopReportList from "../../components/Header/NavTopReport/NavTopReportList";
+import { AppDispatch, RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { fetchProvideNum } from "../../redux/actions/provideNumActions";
 
 function Report() {
+    const dispatch: AppDispatch = useDispatch()
+    const dataReport = useSelector((state: RootState) => state.provideNum.datas)
+
+    const [dateFrom, setDateFrom] = useState<string>("")
+    const [dateTo, setDateTo] = useState<string>("")
+    const [filteredData, setFilteredData] = useState<DataTableProvideNum[]>([]);
+
+    // fetch data
+    useEffect(() => {
+        dispatch(fetchProvideNum())
+    }, [dispatch])
+
+    // handle filter date 
+    const onChangeDteFrom: DatePickerProps['onChange'] = (date, dateString) => {
+        setDateFrom(dateString)
+    };
+
+    const onChangeDteTo: DatePickerProps['onChange'] = (date, dateString) => {
+        setDateTo(dateString)
+    };
+
+    const parseDate = (str: string) => {
+        const [day, month, year] = str.split("/").map(s => parseInt(s, 10));
+        return new Date(year, month - 1, day);
+    };
+
+    useEffect(() => {
+        if (dataReport.length > 0) {
+            if (!dateFrom && !dateTo) {
+                setFilteredData(dataReport);
+            } else {
+                const dateFiltered = dataReport.filter(item => {
+                    const curTimeProvide = item.timeprovide.split(" - ")
+                    const timeProvideDate = parseDate(curTimeProvide[1]);
+
+                    const fromDate = dateFrom ? parseDate(dateFrom) : null;
+                    const toDate = dateTo ? parseDate(dateTo) : null;
+
+                    return (!fromDate || timeProvideDate >= fromDate) && (!toDate || timeProvideDate <= toDate);
+                });
+
+                setFilteredData(dateFiltered);
+            }
+        }
+    }, [dataReport, dateFrom, dateTo]);
+
     // data table
-    const columns: ColumnsType<DataTableReport> = [
+    const columns: ColumnsType<DataTableProvideNum> = [
         {
             title: "Số thứ tự",
             dataIndex: "stt",
@@ -23,37 +74,37 @@ function Report() {
                     value: '2010001',
                 },
                 {
-                    text: 'Thời gian cấp',
+                    text: '2010002',
                     value: '2010002',
                 },
             ],
         },
         {
             title: "Tên dịch vụ",
-            dataIndex: "nameSev",
-            key: "nameSev",
+            dataIndex: "sevname",
+            key: "sevname",
             filters: [
                 {
                     text: '2010001',
                     value: '2010001',
                 },
                 {
-                    text: 'Thời gian cấp',
+                    text: '2010002',
                     value: '2010002',
                 },
             ],
         },
         {
             title: "Thời gian cấp",
-            dataIndex: "timeProvide",
-            key: "timeProvide",
+            dataIndex: "timeprovide",
+            key: "timeprovide",
             filters: [
                 {
                     text: '2010001',
                     value: '2010001',
                 },
                 {
-                    text: 'Thời gian cấp',
+                    text: '2010002',
                     value: '2010002',
                 },
             ],
@@ -68,7 +119,7 @@ function Report() {
                     value: '2010001',
                 },
                 {
-                    text: 'Thời gian cấp',
+                    text: '2010002',
                     value: '2010002',
                 },
             ],
@@ -97,83 +148,12 @@ function Report() {
                     value: '2010001',
                 },
                 {
-                    text: 'Thời gian cấp',
+                    text: '2010002',
                     value: '2010002',
                 },
             ],
         },
     ];
-
-    const data: DataTableReport[] = [
-        {
-            key: '1',
-            stt: "2010001",
-            nameSev: "Răng hàm mặt",
-            timeProvide: "07:20 - 07/10/2021",
-            status: "Đang chờ",
-            supply: "Kiosk"
-        },
-        {
-            key: '2',
-            stt: "2010001",
-            nameSev: "Răng hàm mặt",
-            timeProvide: "07:20 - 07/10/2021",
-            status: "Đã sử dụng",
-            supply: "Kiosk"
-        },
-        {
-            key: '3',
-            stt: "2010001",
-            nameSev: "Răng hàm mặt",
-            timeProvide: "07:20 - 07/10/2021",
-            status: "Đã sử dụng",
-            supply: "Kiosk"
-        },
-        {
-            key: '4',
-            stt: "2010001",
-            nameSev: "Răng hàm mặt",
-            timeProvide: "07:20 - 07/10/2021",
-            status: "Bỏ qua",
-            supply: "Kiosk"
-        },
-        {
-            key: '5',
-            stt: "2010001",
-            nameSev: "Răng hàm mặt",
-            timeProvide: "07:20 - 07/10/2021",
-            status: "Đang chờ",
-            supply: "Kiosk"
-        },
-        {
-            key: '6',
-            stt: "2010001",
-            nameSev: "Răng hàm mặt",
-            timeProvide: "07:20 - 07/10/2021",
-            status: "Bỏ qua",
-            supply: "Kiosk"
-        },
-        {
-            key: '7',
-            stt: "2010001",
-            nameSev: "Răng hàm mặt",
-            timeProvide: "07:20 - 07/10/2021",
-            status: "Đang chờ",
-            supply: "Kiosk"
-        },
-        {
-            key: '8',
-            stt: "2010001",
-            nameSev: "Răng hàm mặt",
-            timeProvide: "07:20 - 07/10/2021",
-            status: "Đang chờ",
-            supply: "Kiosk"
-        },
-    ];
-
-    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-        console.log(date, dateString);
-    };
 
     return (
         <div>
@@ -185,9 +165,9 @@ function Report() {
                             <div className="status-main-report-child">
                                 <p>Chọn thời gian</p>
                                 <div className="status-date-main-child">
-                                    <DatePicker format="DD/MM/YYYY" onChange={onChange} style={{ marginRight: 7, height: 32 }} />
+                                    <DatePicker format="DD/MM/YYYY" onChange={onChangeDteFrom} style={{ marginRight: 7, height: 32 }} />
                                     <BiSolidRightArrow size={10} />
-                                    <DatePicker format="DD/MM/YYYY" onChange={onChange} style={{ marginLeft: 7, height: 32 }} />
+                                    <DatePicker format="DD/MM/YYYY" onChange={onChangeDteTo} style={{ marginLeft: 7, height: 32 }} />
                                 </div>
                             </div>
                         </div>
@@ -196,9 +176,10 @@ function Report() {
                     <div className="content-main-report-child">
                         <div className="table-content-main-report">
                             <Table
+                                rowKey={(record) => record.id!}
                                 className="table-report"
                                 columns={columns}
-                                dataSource={data}
+                                dataSource={filteredData}
                                 pagination={{ pageSize: 8 }}
                             />
                         </div>

@@ -6,16 +6,19 @@ import UpdateRole from "./UpdateRole/UpdateRole";
 import NavTopRoleManageList from "../../../components/Header/NavTopRoleManage/NavTopRoleManageList/NavTopRoleManageList";
 import NavTopRoleManageAdd from "../../../components/Header/NavTopRoleManage/NavTopRoleManageAdd/NavTopRoleManageAdd";
 import NavTopRoleManageUpdate from "../../../components/Header/NavTopRoleManage/NavTopRoleManageUpdate/NavTopRoleManageUpdate";
+import { DataTableRole } from "../../../types";
 
 function RoleManage() {
     const [pageSystem, setPageSystem] = useState<string>("0");
+    const [selectedPage, setSelectedPage] = useState<DataTableRole | null>(null);
 
     const handleOpentPageAdd = () => {
         setPageSystem("1")
     }
 
-    const handleOpentPageUpdate = () => {
+    const handleOpentPageUpdate = (role: DataTableRole) => {
         setPageSystem("2")
+        setSelectedPage(role)
     }
 
     return (
@@ -40,7 +43,7 @@ function RoleManage() {
             ) : pageSystem === "1" ? (
                 <AddRole handleClosePageAdd={() => setPageSystem("0")} />
             ) : (
-                <UpdateRole handleClosePageUpdate={() => setPageSystem("0")} />
+                <UpdateRole handleClosePageUpdate={() => setPageSystem("0")} selectedPage={selectedPage} />
             )}
         </div>
     );

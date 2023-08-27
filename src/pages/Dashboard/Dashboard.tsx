@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./Dashboard.scss"
 import { BsCalendar } from "react-icons/bs"
 import { GoArrowUp } from "react-icons/go"
@@ -7,16 +9,196 @@ import { Select } from 'antd';
 import Overview from "../../components/Overview/Overview";
 import LineChartComponent from "../../components/Charts/LineChart";
 import HeaderDashboard from "../../components/HeaderDashboard";
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { AppDispatch, RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProvideNum } from "../../redux/actions/provideNumActions";
+import { DataTypeChart } from "../../types";
 
 function Dashboard() {
-    const [title, setTitle] = useState<string>("ngày")
+    const dispatch: AppDispatch = useDispatch();
+    const dataProvideNum = useSelector((state: RootState) => state.provideNum.datas)
+
+    const [title, setTitle] = useState<string>("Ngày")
+    const [dataChart, setDataChart] = useState<DataTypeChart[]>([])
+
+    // get data into the table
+    const granted = dataProvideNum.length
+    const used = dataProvideNum.filter((item) => item.status === "Đã sử dụng").length
+    const waiting = dataProvideNum.filter((item) => item.status === "Đang chờ").length
+    const skip = dataProvideNum.filter((item) => item.status === "Bỏ qua").length
+
+    // handle get data into the chart
+    useEffect(() => {
+        const groupDay = dataProvideNum.map((item) => {
+            const day = item.timeprovide.split(" - ")
+            const onlyDay = day[1].split("/")
+            return onlyDay[0]
+        })
+
+        // data day
+        const dayChart: DataTypeChart[] = groupDay.map((item) => {
+            return {
+                data: item,
+                amount: 1
+            }
+        });
+        const dayChart2 = dayChart.reduce((prev: any, curr: any) => {
+            if (!prev.length) {
+                return prev = [curr]
+            }
+            const isDateDuplicate = prev.findIndex((item: any) => item.data === curr.data)
+            isDateDuplicate !== -1 ? prev[isDateDuplicate].amount += 1 : prev.push(curr)
+            return prev
+        }, []);
+        const dayChart3 = dayChart2.sort((a: any, b: any) => parseFloat(a.data) - parseFloat(b.data));
+
+        // data week
+        const weekChart: DataTypeChart[] = dayChart3.map((item: any) => {
+            if (Number(item.data) >= 1 && Number(item.data) <= 7) {
+                return {
+                    data: "Tuần 1",
+                    amount: item.amount,
+                }
+            }
+            if (Number(item.data) >= 8 && Number(item.data) <= 15) {
+                return {
+                    data: "Tuần 2",
+                    amount: item.amount,
+                }
+            }
+            if (Number(item.data) >= 16 && Number(item.data) <= 23) {
+                return {
+                    data: "Tuần 3",
+                    amount: item.amount,
+                }
+            }
+            if (Number(item.data) >= 24 && Number(item.data) <= 31) {
+                return {
+                    data: "Tuần 4",
+                    amount: item.amount,
+                }
+            }
+        })
+        const weekChart2 = weekChart.reduce((prev: any, curr: any) => {
+            if (!prev.length) {
+                return prev = [curr]
+            }
+            const isDateDuplicate = prev.findIndex((item: any) => item.data === curr.data)
+            isDateDuplicate !== -1 ? prev[isDateDuplicate].amount += curr.amount : prev.push(curr)
+            return prev
+        }, []);
+
+        // data month
+        const dayOfMonth = dataProvideNum.map((item) => {
+            const day = item.timeprovide.split(" - ")
+            const onlyDay = day[1].split("/")
+            return onlyDay[1]
+        })
+        const dayOfMonth2 = dayOfMonth.sort((a: any, b: any) => parseFloat(a) - parseFloat(b));
+
+        const monthChart: any = dayOfMonth2.map((item: any) => {
+            if (item === "01") {
+                return {
+                    data: "Tháng 1",
+                    amount: 1
+                }
+            }
+            if (item === "02") {
+                return {
+                    data: "Tháng 2",
+                    amount: 1
+                }
+            }
+            if (item === "03") {
+                return {
+                    data: "Tháng 3",
+                    amount: 1
+                }
+            }
+            if (item === "04") {
+                return {
+                    data: "Tháng 4",
+                    amount: 1
+                }
+            }
+            if (item === "05") {
+                return {
+                    data: "Tháng 5",
+                    amount: 1
+                }
+            }
+            if (item === "06") {
+                return {
+                    data: "Tháng 6",
+                    amount: 1
+                }
+            }
+            if (item === "07") {
+                return {
+                    data: "Tháng 7",
+                    amount: 1
+                }
+            }
+            if (item === "08") {
+                return {
+                    data: "Tháng 8",
+                    amount: 1
+                }
+            }
+            if (item === "09") {
+                return {
+                    data: "Tháng 9",
+                    amount: 1
+                }
+            }
+            if (item === "10") {
+                return {
+                    data: "Tháng 10",
+                    amount: 1
+                }
+            }
+            if (item === "11") {
+                return {
+                    data: "Tháng 11",
+                    amount: 1
+                }
+            }
+            if (item === "12") {
+                return {
+                    data: "Tháng 12",
+                    amount: 1
+                }
+            }
+        })
+        const monthChart2 = monthChart.reduce((prev: any, curr: any) => {
+            if (!prev.length) {
+                return prev = [curr]
+            }
+            const isDateDuplicate = prev.findIndex((item: any) => item.data === curr.data)
+            isDateDuplicate !== -1 ? prev[isDateDuplicate].amount += 1 : prev.push(curr)
+            return prev
+        }, []);
+
+        if (title === "Ngày") {
+            setDataChart(dayChart3)
+        } else if (title === "Tuần") {
+            setDataChart(weekChart2)
+        } else {
+            setDataChart(monthChart2)
+        }
+
+    }, [title])
 
     const handleChange = (value: string) => {
         setTitle(value)
     };
-
     const titleLowCase = title.toLowerCase()
+
+    // fetch data
+    useEffect(() => {
+        dispatch(fetchProvideNum())
+    }, [dispatch])
 
     return (
         <div className="wrapper-dashboard">
@@ -35,10 +217,10 @@ function Dashboard() {
                                 <p>Số thứ tự <br></br> đã cấp</p>
                             </div>
                             <div className="info-content-bot">
-                                <p className="info-number">4.221</p>
+                                <p className="info-number">{granted}</p>
                                 <div className="desc-info-number">
                                     <GoArrowUp className="icon-up" />
-                                    <span>32,41%</span>
+                                    <span>100%</span>
                                 </div>
                             </div>
                         </div>
@@ -51,10 +233,10 @@ function Dashboard() {
                                 <p>Số thứ tự <br></br> đã sử dụng</p>
                             </div>
                             <div className="info-content-bot">
-                                <p className="info-number">3.721</p>
+                                <p className="info-number">{used}</p>
                                 <div className="desc-info-number">
                                     <GoArrowUp className="icon-up" />
-                                    <span>32,41%</span>
+                                    <span>14,72%</span>
                                 </div>
                             </div>
                         </div>
@@ -71,10 +253,10 @@ function Dashboard() {
                                 <p>Số thứ tự <br></br> đang chờ</p>
                             </div>
                             <div className="info-content-bot">
-                                <p className="info-number">468</p>
+                                <p className="info-number">{waiting}</p>
                                 <div className="desc-info-number">
                                     <GoArrowUp className="icon-up" />
-                                    <span>32,41%</span>
+                                    <span>68,23%</span>
                                 </div>
                             </div>
                         </div>
@@ -90,10 +272,10 @@ function Dashboard() {
                                 <p>Số thứ tự <br></br> đã bỏ qua</p>
                             </div>
                             <div className="info-content-bot">
-                                <p className="info-number">32</p>
+                                <p className="info-number">{skip}</p>
                                 <div className="desc-info-number">
                                     <GoArrowUp className="icon-up" />
-                                    <span>32,41%</span>
+                                    <span>14,72%</span>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +306,7 @@ function Dashboard() {
                         <div className="statistical-desc">Tháng 8/2023</div>
 
                         <div className="statistical-chart-left">
-                            <LineChartComponent />
+                            <LineChartComponent dataChart={dataChart} />
                         </div>
                     </div>
                 </div>

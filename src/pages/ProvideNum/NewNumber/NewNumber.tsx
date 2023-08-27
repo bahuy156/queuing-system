@@ -8,6 +8,8 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addNumber } from "../../../redux/actions/provideNumActions";
 import { fetchAccount } from "../../../redux/actions/accountActions";
+import { addDiary } from "../../../redux/actions/diaryActoins";
+import { addNoti } from "../../../redux/actions/notificationActions";
 
 interface PropsChild {
     handleClosePageNewNumber: any
@@ -16,12 +18,9 @@ interface PropsChild {
 function NewNumber(props: PropsChild) {
     const dispatch: AppDispatch = useDispatch()
     const dataProvide = useSelector((state: RootState) => state.provideNum.datas)
-    const dataCurAccount = useSelector((state: RootState) => state.account.datas)
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [valueSelect, setValueSelect] = useState<string>("")
-
-    const nameUser = dataCurAccount.map((item) => item.username)
 
     const sttProvice = dataProvide.map((item) => Number(item.stt))
     const maxSttProvide = Math.max(...sttProvice) + 1;
@@ -37,14 +36,28 @@ function NewNumber(props: PropsChild) {
     const minute = time.getMinutes()
     const minute2 = Number(minute) < 10 ? `0${minute}` : minute
     const nowDay = `${hours2}:${minute2} - ${day2}/${month2}/${year}`
+    const nowDay2 = `${hours2}h${minute2} ngày ${day2}/${month2}/${year}`
     const expiryDay = `${hours2}:${minute2} - ${day + 5}/${month2}/${year}`
+
+    // handle get current account
+    const getAccountStorage = () => {
+        const accountStorage = localStorage.getItem("currentAccount")
+
+        if (accountStorage) {
+            return JSON.parse(accountStorage)
+        } else {
+            return null
+        }
+    }
+
+    const currAccount = getAccountStorage();
 
     // handle add new number
     const handleAddNumber = async () => {
         if (valueSelect) {
             const newNumber = {
                 stt: maxSttProvide.toString(),
-                cusname: nameUser[0],
+                cusname: currAccount.username,
                 sevname: valueSelect,
                 timeprovide: nowDay,
                 expiry: expiryDay,
@@ -52,8 +65,23 @@ function NewNumber(props: PropsChild) {
                 supply: "Hệ thống"
             }
 
+            const operation = `cấp số mới ${maxSttProvide.toString()}`
+            const newDiary = {
+                loginname: currAccount.loginname,
+                time: nowDay,
+                ip: "192.168.1.1",
+                operation: `Thực hiện ${operation}`,
+            }
+
+            const newTimeNoti = {
+                time: nowDay2,
+                username: currAccount.username,
+            }
+
             setIsModalOpen(true);
             await dispatch(addNumber(newNumber));
+            dispatch(addDiary(newDiary));
+            dispatch(addNoti(newTimeNoti))
         } else {
             alert("Vui lòng chọn dịch vụ cần cấp số")
         }

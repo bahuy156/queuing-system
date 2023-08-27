@@ -19,6 +19,7 @@ export interface DataAccount {
     password: string,
     role: string,
     status: string,
+    image?: string,
 }
 
 // type table device
@@ -99,4 +100,62 @@ export interface DataTableUserLog {
     time: string,
     ip: string,
     operations: string,
+}
+
+// type table diary
+export interface DataTableDiary {
+    id?: string,
+    loginname: string,
+    time: string,
+    ip: string,
+    operation: string,
+}
+
+// type data notification
+export interface DataNotification {
+    id?: string,
+    time: string,
+    username: string,
+}
+
+// type data chart
+export interface DataTypeChart {
+    data: string;
+    amount: any;
+}
+
+export interface DataSets {
+    label: string;
+    data: string[];
+    tension: number;
+    borderColor: string;
+    pointBorderColor: string;
+    backgroundColor: CanvasGradient;
+    fill: boolean;
+    spanGaps: boolean;
+}
+
+export interface ChartData {
+    labels: string[];
+    datasets: DataSets[];
+}
+
+// type data table role
+export interface DataTableRole {
+    id?: string,
+    name: string,
+    user: string,
+    desc: string,
+    role: {
+        A: {
+            userlog: boolean,
+            device: boolean,
+            service: boolean,
+        },
+        B: {
+            provide: boolean,
+            report: boolean,
+            account: boolean,
+        }
+    }
 }

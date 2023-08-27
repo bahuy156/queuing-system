@@ -6,6 +6,7 @@ import { useState } from "react"
 import { AppDispatch } from "../../../redux/store";
 import { useDispatch } from "react-redux";
 import { addServices } from "../../../redux/actions/serviceActions";
+import { addDiary } from "../../../redux/actions/diaryActoins";
 
 interface PropsChild {
     handleClosePageAdd: any
@@ -18,6 +19,31 @@ function AddService(props: PropsChild) {
     const [nameValue, setNameValue] = useState<string>("");
     const [descValue, setDescValue] = useState<string>("");
 
+    const time = new Date()
+    const day = time.getDate()
+    const day2 = Number(day) < 10 ? `0${day}` : day
+    const month = time.getMonth() + 1
+    const month2 = Number(month) < 10 ? `0${month}` : month
+    const year = time.getFullYear()
+    const hours = time.getHours()
+    const hours2 = Number(hours) < 10 ? `0${hours}` : hours
+    const minute = time.getMinutes()
+    const minute2 = Number(minute) < 10 ? `0${minute}` : minute
+    const nowDay = `${hours2}:${minute2} - ${day2}/${month2}/${year}`
+
+    // handle get current account
+    const getAccountStorage = () => {
+        const accountStorage = localStorage.getItem("currentAccount")
+
+        if (accountStorage) {
+            return JSON.parse(accountStorage)
+        } else {
+            return null
+        }
+    }
+
+    const currAccount = getAccountStorage();
+
     const handleAddServices = async () => {
         if (codeValue && nameValue && descValue) {
             const newServices = {
@@ -28,8 +54,17 @@ function AddService(props: PropsChild) {
                 status: "Hoạt động"
             }
 
+            const operation = `thêm dịch vụ ${nameValue.toLowerCase()}`
+            const newDiary = {
+                loginname: currAccount.username,
+                time: nowDay,
+                ip: "192.168.1.1",
+                operation: `Thực hiện ${operation}`,
+            }
+
             await dispatch(addServices(newServices))
             props.handleClosePageAdd()
+            dispatch(addDiary(newDiary));
         } else {
             alert("Vui lòng điền đầy đủ thông tin!");
         }

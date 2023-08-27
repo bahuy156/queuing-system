@@ -44,6 +44,7 @@ function ListAccount(props: PropsChild) {
         (item) => (valueRole === "Tất cả" || item.role === valueRole)
     );
 
+    // fetch data
     useEffect(() => {
         dispatch(fetchAccount())
     }, [dispatch])
