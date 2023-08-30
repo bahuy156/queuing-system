@@ -84,12 +84,10 @@ function MenuBar() {
                     </NavLink>
                 )}
 
-                {canAccess("B", "provide") && (
-                    <NavLink to={publicRoutes[4].path} className="nav-menu-child" onClick={() => setActive(false)} >
-                        <PiStack className="icon-nav" />
-                        <span>Cấp số</span>
-                    </NavLink>
-                )}
+                <NavLink to={publicRoutes[4].path} className="nav-menu-child" onClick={() => setActive(false)} >
+                    <PiStack className="icon-nav" />
+                    <span>Cấp số</span>
+                </NavLink>
 
                 {canAccess("B", "report") && (
                     <NavLink to={publicRoutes[5].path} className="nav-menu-child" onClick={() => setActive(false)} >
@@ -103,13 +101,15 @@ function MenuBar() {
                     <span>Cài đặt hệ thống</span>
                     <HiOutlineDotsVertical className="icon-nav" />
                     <div className="sub-menu">
-                        <NavLink
-                            to={publicRoutes[7].path}
-                            className="sub-menu-child"
-                            onClick={handleActiveNavMenu}
-                        >
-                            Quản lý vai trò
-                        </NavLink>
+                        {canAccess("B", "role") && (
+                            <NavLink
+                                to={publicRoutes[7].path}
+                                className="sub-menu-child"
+                                onClick={handleActiveNavMenu}
+                            >
+                                Quản lý vai trò
+                            </NavLink>
+                        )}
                         {canAccess("B", "account") && (
                             <NavLink
                                 to={publicRoutes[8].path}

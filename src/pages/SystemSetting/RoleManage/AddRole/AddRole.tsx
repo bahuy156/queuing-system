@@ -23,7 +23,7 @@ function AddRole(props: PropsChild) {
     const [device, setDevice] = useState<boolean>(false);
     const [service, setService] = useState<boolean>(false);
     const [checkAll2, setCheckAll2] = useState<boolean>(false);
-    const [provide, setProvide] = useState<boolean>(false);
+    const [role, setRole] = useState<boolean>(false);
     const [report, setReport] = useState<boolean>(false);
     const [account, setAccount] = useState<boolean>(false);
 
@@ -78,7 +78,7 @@ function AddRole(props: PropsChild) {
     // group B
     const handleCheckedAll2 = () => {
         if (!checkAll2) {
-            setProvide(false)
+            setRole(false)
             setReport(false)
             setAccount(false)
             setCheckAll2(!checkAll2)
@@ -87,22 +87,22 @@ function AddRole(props: PropsChild) {
         }
     }
 
-    const handleCheckedProvide = () => {
-        if (!provide && report && account) {
+    const handleCheckedRole = () => {
+        if (!role && report && account) {
             setCheckAll2(true)
-            setProvide(false)
+            setRole(false)
             setReport(false)
             setAccount(false)
         } else {
             setCheckAll2(false)
-            setProvide(!service)
+            setRole(!role)
         }
     }
 
     const handleCheckedReport = () => {
-        if (!report && provide && account) {
+        if (!report && role && account) {
             setCheckAll2(true)
-            setProvide(false)
+            setRole(false)
             setReport(false)
             setAccount(false)
         } else {
@@ -112,9 +112,9 @@ function AddRole(props: PropsChild) {
     }
 
     const handleCheckedAccount = () => {
-        if (!account && provide && report) {
+        if (!account && role && report) {
             setCheckAll2(true)
-            setProvide(false)
+            setRole(false)
             setReport(false)
             setAccount(false)
         } else {
@@ -155,7 +155,7 @@ function AddRole(props: PropsChild) {
                         service: checkAll1 || service,
                     },
                     B: {
-                        provide: checkAll2 || provide,
+                        role: checkAll2 || role,
                         report: checkAll2 || report,
                         account: checkAll2 || account,
                     }
@@ -224,7 +224,6 @@ function AddRole(props: PropsChild) {
                                 <div className="content-bot-add-role-child">
                                     <Checkbox
                                         className="checkbox-add-role-child"
-                                        // onChange={(e) => setCheckAll1(e.target.checked)}
                                         onClick={handleCheckedAll1}
                                         checked={checkAll1}
                                     >
@@ -232,7 +231,6 @@ function AddRole(props: PropsChild) {
                                     </Checkbox>
                                     <Checkbox
                                         className="checkbox-add-role-child"
-                                        // onChange={(e) => setUserLog(e.target.checked)}
                                         onClick={handleCheckedUserLog}
                                         checked={userLog}
                                     >
@@ -240,7 +238,6 @@ function AddRole(props: PropsChild) {
                                     </Checkbox>
                                     <Checkbox
                                         className="checkbox-add-role-child"
-                                        // onChange={(e) => setDevice(e.target.checked)}
                                         onClick={handleCheckedDevice}
                                         checked={device}
                                     >
@@ -248,7 +245,6 @@ function AddRole(props: PropsChild) {
                                     </Checkbox>
                                     <Checkbox
                                         className="checkbox-add-role-child"
-                                        // onChange={(e) => setService(e.target.checked)}
                                         onClick={handleCheckedService}
                                         checked={service}
                                     >
@@ -263,7 +259,6 @@ function AddRole(props: PropsChild) {
                                 <div className="content-bot-add-role-child">
                                     <Checkbox
                                         className="checkbox-add-role-child"
-                                        // onChange={(e) => setCheckAll2(e.target.checked)}
                                         onClick={handleCheckedAll2}
                                         checked={checkAll2}
                                     >
@@ -271,15 +266,13 @@ function AddRole(props: PropsChild) {
                                     </Checkbox>
                                     <Checkbox
                                         className="checkbox-add-role-child"
-                                        // onChange={(e) => setProvide(e.target.checked)}
-                                        onClick={handleCheckedProvide}
-                                        checked={provide}
+                                        onClick={handleCheckedRole}
+                                        checked={role}
                                     >
-                                        Sử dụng cấp số
+                                        Quản lý vai trò
                                     </Checkbox>
                                     <Checkbox
                                         className="checkbox-add-role-child"
-                                        // onChange={(e) => setReport(e.target.checked)}
                                         onClick={handleCheckedReport}
                                         checked={report}
                                     >
@@ -287,7 +280,6 @@ function AddRole(props: PropsChild) {
                                     </Checkbox>
                                     <Checkbox
                                         className="checkbox-add-role-child"
-                                        // onChange={(e) => setAccount(e.target.checked)}
                                         onClick={handleCheckedAccount}
                                         checked={account}
                                     >

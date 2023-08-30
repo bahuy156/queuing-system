@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "./ListRole.scss"
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import "./ListRole.scss"
 import { Input } from "antd";
 import { BiSearch } from "react-icons/bi";
 import { DataTableRole } from "../../../../types";
@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from "../../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react"
 import { fetchRole, searchRole } from "../../../../redux/actions/roleActions";
+import { fetchAccount } from "../../../../redux/actions/accountActions";
 
 interface PrposChild {
     handleOpentPageAdd: any
@@ -38,6 +39,7 @@ function ListRole(props: PrposChild) {
     // fetch data
     useEffect(() => {
         dispatch(fetchRole())
+        dispatch(fetchAccount())
     }, [dispatch])
 
     // data table

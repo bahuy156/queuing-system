@@ -153,7 +153,7 @@ export interface DataTableRole {
             service: boolean,
         },
         B: {
-            provide: boolean,
+            role: boolean,
             report: boolean,
             account: boolean,
         }

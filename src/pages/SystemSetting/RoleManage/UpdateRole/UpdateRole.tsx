@@ -23,7 +23,7 @@ function UpdateRole(props: PropsChild) {
     const [device, setDevice] = useState<boolean>(false);
     const [service, setService] = useState<boolean>(false);
     const [checkAll2, setCheckAll2] = useState<boolean>(false);
-    const [provide, setProvide] = useState<boolean>(false);
+    const [role, setRole] = useState<boolean>(false);
     const [report, setReport] = useState<boolean>(false);
     const [account, setAccount] = useState<boolean>(false);
 
@@ -89,7 +89,7 @@ function UpdateRole(props: PropsChild) {
     // group B
     const handleCheckedAll2 = () => {
         if (!checkAll2) {
-            setProvide(false);
+            setRole(false);
             setReport(false);
             setAccount(false);
             setCheckAll2(!checkAll2);
@@ -98,22 +98,22 @@ function UpdateRole(props: PropsChild) {
         }
     };
 
-    const handleCheckedProvide = () => {
-        if (!provide && report && account) {
+    const handleCheckedRole = () => {
+        if (!role && report && account) {
             setCheckAll2(true);
-            setProvide(false);
+            setRole(false);
             setReport(false);
             setAccount(false);
         } else {
             setCheckAll2(false);
-            setProvide(!service);
+            setRole(!role);
         }
     };
 
     const handleCheckedReport = () => {
-        if (!report && provide && account) {
+        if (!report && role && account) {
             setCheckAll2(true);
-            setProvide(false);
+            setRole(false);
             setReport(false);
             setAccount(false);
         } else {
@@ -123,9 +123,9 @@ function UpdateRole(props: PropsChild) {
     };
 
     const handleCheckedAccount = () => {
-        if (!account && provide && report) {
+        if (!account && role && report) {
             setCheckAll2(true);
-            setProvide(false);
+            setRole(false);
             setReport(false);
             setAccount(false);
         } else {
@@ -135,12 +135,9 @@ function UpdateRole(props: PropsChild) {
     };
 
     // handle update role
-    const numUserManage = dataAccount.filter(
-        (item) => item.role === "Quản lý"
-    ).length;
-    const numUserAccountant = dataAccount.filter(
-        (item) => item.role === "Kế toán"
-    ).length;
+    const numUserManage = dataAccount.filter((item) => item.role === "Quản lý").length;
+    const numUserAccountant = dataAccount.filter((item) => item.role === "Kế toán").length;
+    const numUserAdmin = dataAccount.filter((item) => item.role === "Admin").length;
 
     const handleChangeNumUser = () => {
         let num;
@@ -148,6 +145,8 @@ function UpdateRole(props: PropsChild) {
             num = numUserAccountant;
         } else if (nameRole === "Quản lý") {
             num = numUserManage;
+        } else if (nameRole === "Admin") {
+            num = numUserAdmin
         }
         return num;
     };
@@ -168,7 +167,7 @@ function UpdateRole(props: PropsChild) {
                         service: checkAll1 || service,
                     },
                     B: {
-                        provide: checkAll2 || provide,
+                        role: checkAll2 || role,
                         report: checkAll2 || report,
                         account: checkAll2 || account,
                     }
@@ -281,10 +280,10 @@ function UpdateRole(props: PropsChild) {
                                     </Checkbox>
                                     <Checkbox
                                         className="checkbox-update-role-child"
-                                        onClick={handleCheckedProvide}
-                                        checked={provide}
+                                        onClick={handleCheckedRole}
+                                        checked={role}
                                     >
-                                        Sử dụng cấp số
+                                        Quản lý vai trò
                                     </Checkbox>
                                     <Checkbox
                                         className="checkbox-update-role-child"
