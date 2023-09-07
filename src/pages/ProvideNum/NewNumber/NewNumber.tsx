@@ -28,6 +28,7 @@ function NewNumber(props: PropsChild) {
     const time = new Date()
     const day = time.getDate()
     const day2 = Number(day) < 10 ? `0${day}` : day
+    const day3 = Number(day) < 10 ? `0${day + 1}` : day + 1
     const month = time.getMonth() + 1
     const month2 = Number(month) < 10 ? `0${month}` : month
     const year = time.getFullYear()
@@ -37,7 +38,7 @@ function NewNumber(props: PropsChild) {
     const minute2 = Number(minute) < 10 ? `0${minute}` : minute
     const nowDay = `${hours2}:${minute2} - ${day2}/${month2}/${year}`
     const nowDay2 = `${hours2}h${minute2} ngày ${day2}/${month2}/${year}`
-    const expiryDay = `${hours2}:${minute2} - ${day + 5}/${month2}/${year}`
+    const expiryDay = `${hours2}:${minute2} - ${day3}/${month2}/${year}`
 
     // handle get current account
     const getAccountStorage = () => {
