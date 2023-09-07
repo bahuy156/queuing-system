@@ -303,7 +303,7 @@ function Dashboard() {
                             </div>
                         </div>
 
-                        <div className="statistical-desc">Tháng 8/2023</div>
+                        <div className="statistical-desc">{titleLowCase}</div>
 
                         <div className="statistical-chart-left">
                             <LineChartComponent dataChart={dataChart} />
